@@ -25,4 +25,5 @@ deployments:
         value: clickstream
 
 # This section describes the Topics of the data pipeline
-topics: []
+topics:
+  - name: clickstream
