@@ -1,4 +1,4 @@
-name: clickstreams-web-sockets
+name: gametelemetry-web-sockets
 language: Python
 variables:
   - name: output
