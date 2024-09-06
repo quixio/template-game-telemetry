@@ -39,3 +39,7 @@ deployments:
 # This section describes the Topics of the data pipeline
 topics:
   - name: clickstream
+    configuration:
+      partitions: 4
+      retentionInMinutes: -1
+      retentionInBytes: 1048576000
