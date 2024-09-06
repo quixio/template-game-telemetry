@@ -6,18 +6,6 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: game
-    application: game
-    version: latest
-    deploymentType: Service
-    resources:
-      cpu: 200
-      memory: 500
-      replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: game
-    variables: []
   - name: Game Telemetry WS
     application: gametelemetry-web-sockets
     version: latest
@@ -35,6 +23,18 @@ deployments:
         description: Output topic
         required: true
         value: clickstream
+  - name: Snake game
+    application: game
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: game
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:
