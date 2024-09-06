@@ -1,0 +1,17 @@
+# Use an official Node.js runtime as a parent image
+FROM node:16-slim
+
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the game file into the container
+COPY index.html /usr/src/app/index.html
+
+# Install a lightweight static file server to serve the HTML
+RUN npm install -g http-server
+
+# Expose port 8080 to the outside world
+EXPOSE 80
+
+# Command to run the HTTP server
+CMD [ "http-server", "-p", "80" ]
