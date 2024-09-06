@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 
 # Copy the game file into the container
 COPY index.html /usr/src/app/index.html
+COPY app.js /usr/share/nginx/html/
 
 # Install a lightweight static file server to serve the HTML
 RUN npm install -g http-server
