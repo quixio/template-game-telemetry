@@ -46,7 +46,7 @@ var apple = {
 };
 
 // Set up WebSocket connection
-var socket = new WebSocket('ws://localhost:80');
+var socket = new WebSocket('wss://gametelemetry-tomas-snakecheating-dev.deployments.quix.io');
 
 socket.onopen = function(event) {
   console.log('Connected to WebSocket');
