@@ -1,18 +1,15 @@
-# Use an official Node.js runtime as a parent image
-FROM node:16-slim
+# Step 1: Use an official Nginx image as the base
+FROM nginx:alpine
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Step 2: Set the working directory to Nginx's default html directory
+WORKDIR /usr/share/nginx/html
 
-# Copy the game file into the container
-COPY index.html /usr/src/app/index.html
+# Step 3: Copy the static files (index.html and app.js) to the Nginx html directory
+COPY index.html /usr/share/nginx/html/
 COPY app.js /usr/share/nginx/html/
 
-# Install a lightweight static file server to serve the HTML
-RUN npm install -g http-server
-
-# Expose port 8080 to the outside world
+# Step 4: Expose port 80 to the outside world
 EXPOSE 80
 
-# Command to run the HTTP server
-CMD [ "http-server", "-p", "80" ]
+# Step 5: Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
