@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snake Game with Telemetry</title>
+  <meta charset="UTF-8">
+  <style>
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  canvas {
+    border: 1px solid white;
+  }
+  </style>
+</head>
+<body>
+<canvas width="400" height="400" id="game"></canvas>
+<script>
+var canvas = document.getElementById('game');
+var context = canvas.getContext('2d');
+
+// the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
+var grid = 16;
+var count = 0;
+var gameOver = false;
+
+var snake = {
+  x: 160,
+  y: 160,
+  dx: grid,
+  dy: 0,
+  cells: [],
+  maxCells: 4
+};
+
+var apple = {
+  x: 320,
+  y: 320
+};
+
+// Set up WebSocket connection
+var socket = new WebSocket('ws://localhost:80');
+
+socket.onopen = function(event) {
+  console.log('Connected to WebSocket');
+};
+
+// Send telemetry data through WebSocket
+function sendTelemetry(data) {
+  if (socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify(data));
+  }
+}
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+// End game when snake hits the wall
+function checkWallCollision() {
+  if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
+    gameOver = true;
+  }
+}
+
+function resetGame() {
+  snake.x = 160;
+  snake.y = 160;
+  snake.cells = [];
+  snake.maxCells = 4;
+  snake.dx = grid;
+  snake.dy = 0;
+  apple.x = getRandomInt(0, 25) * grid;
+  apple.y = getRandomInt(0, 25) * grid;
+  gameOver = false;
+}
+
+// game loop
+function loop() {
+  if (gameOver) {
+    context.fillStyle = 'white';
+    context.font = '40px Arial';
+    context.fillText('Game Over', 120, 200);
+    return;
+  }
+
+  requestAnimationFrame(loop);
+
+  // Adjusted the speed by increasing the count threshold to 6 (slower)
+  if (++count < 6) {  // Slower by skipping more frames
+    return;
+  }
+
+  count = 0;
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Move snake
+  snake.x += snake.dx;
+  snake.y += snake.dy;
+
+  // Check if the snake hits the wall
+  checkWallCollision();
+
+  if (gameOver) {
+    return;
+  }
+
+  // Send snake position telemetry
+  sendTelemetry({type: 'movement', x: snake.x, y: snake.y});
+
+  // Keep track of where the snake has been
+  snake.cells.unshift({x: snake.x, y: snake.y});
+
+  if (snake.cells.length > snake.maxCells) {
+    snake.cells.pop();
+  }
+
+  // Draw apple
+  context.fillStyle = 'red';
+  context.fillRect(apple.x, apple.y, grid - 1, grid - 1);
+
+  // Draw snake one cell at a time
+  context.fillStyle = 'green';
+  snake.cells.forEach(function(cell, index) {
+    context.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+
+    // Snake eats the apple
+    if (cell.x === apple.x && cell.y === apple.y) {
+      snake.maxCells++;
+      apple.x = getRandomInt(0, 25) * grid;
+      apple.y = getRandomInt(0, 25) * grid;
+    }
+
+    // Check for collision with itself
+    for (var i = index + 1; i < snake.cells.length; i++) {
+      if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+        gameOver = true;
+        break;
+      }
+    }
+  });
+}
+
+// Listen to keyboard events to move the snake
+document.addEventListener('keydown', function(e) {
+  // Prevent snake from backtracking on itself
+  if (e.which === 37 && snake.dx === 0) {
+    snake.dx = -grid;
+    snake.dy = 0;
+  } else if (e.which === 38 && snake.dy === 0) {
+    snake.dy = -grid;
+    snake.dx = 0;
+  } else if (e.which === 39 && snake.dx === 0) {
+    snake.dx = grid;
+    snake.dy = 0;
+  } else if (e.which === 40 && snake.dy === 0) {
+    snake.dy = grid;
+    snake.dx = 0;
+  }
+
+  // Send key press telemetry
+  sendTelemetry({type: 'keypress', key: e.which});
+});
+
+// Start the game
+resetGame();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
