@@ -1,11 +1,6 @@
 name: game
 language: Python
-variables:
-  - name: output
-    inputType: OutputTopic
-    description: This is the output topic for hello world data
-    defaultValue: hello-world-source
-    required: true
+variables: []
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
