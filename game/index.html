@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Snake Game with Telemetry</title>
+  <title>Snake Game with Autopilot and Telemetry</title>
   <meta charset="UTF-8">
   <style>
   html, body {
@@ -23,13 +23,23 @@
 <body>
 <canvas width="400" height="400" id="game"></canvas>
 <script>
+
+function generateGUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+  });
+}
+
+const session_id = generateGUID();
+
 var canvas = document.getElementById('game');
 var context = canvas.getContext('2d');
 
-// the canvas width & height, snake x & y, and the apple x & y, all need to be a multiples of the grid size in order for collision detection to work
 var grid = 16;
 var count = 0;
 var gameOver = false;
+var autopilot = false; // Autopilot flag
 
 var snake = {
   x: 160,
@@ -46,7 +56,7 @@ var apple = {
 };
 
 // Set up WebSocket connection
-var socket = new WebSocket('wss://gametelemetry-tomas-snakecheating-dev.deployments.quix.io');
+var socket = new WebSocket('ws://localhost:80/' + session_id);
 
 socket.onopen = function(event) {
   console.log('Connected to WebSocket');
@@ -82,7 +92,88 @@ function resetGame() {
   gameOver = false;
 }
 
-// game loop
+// Check if the next position will collide with the snake's body
+function willCollideWithSelf(nextX, nextY) {
+  return snake.cells.some(cell => cell.x === nextX && cell.y === nextY);
+}
+
+// Directly change snake direction and send telemetry (simulate keypress in autopilot)
+function changeDirection(keyCode) {
+  if (keyCode === 37 && snake.dx === 0) { // Left arrow key
+    snake.dx = -grid;
+    snake.dy = 0;
+  } else if (keyCode === 38 && snake.dy === 0) { // Up arrow key
+    snake.dx = 0;
+    snake.dy = -grid;
+  } else if (keyCode === 39 && snake.dx === 0) { // Right arrow key
+    snake.dx = grid;
+    snake.dy = 0;
+  } else if (keyCode === 40 && snake.dy === 0) { // Down arrow key
+    snake.dx = 0;
+    snake.dy = grid;
+  }
+
+  // Send telemetry to simulate the key press
+  sendTelemetry({type: 'keypress', key: keyCode});
+}
+
+// Autopilot logic to determine direction and avoid collisions
+function autopilotMove() {
+  let nextX, nextY;
+
+  // Try moving toward the apple
+  if (apple.x < snake.x && snake.dx === 0) {
+    nextX = snake.x - grid;
+    nextY = snake.y;
+    if (!willCollideWithSelf(nextX, nextY)) {
+      changeDirection(37); // Move left
+      return;
+    }
+  }
+  if (apple.x > snake.x && snake.dx === 0) {
+    nextX = snake.x + grid;
+    nextY = snake.y;
+    if (!willCollideWithSelf(nextX, nextY)) {
+      changeDirection(39); // Move right
+      return;
+    }
+  }
+  if (apple.y < snake.y && snake.dy === 0) {
+    nextX = snake.x;
+    nextY = snake.y - grid;
+    if (!willCollideWithSelf(nextX, nextY)) {
+      changeDirection(38); // Move up
+      return;
+    }
+  }
+  if (apple.y > snake.y && snake.dy === 0) {
+    nextX = snake.x;
+    nextY = snake.y + grid;
+    if (!willCollideWithSelf(nextX, nextY)) {
+      changeDirection(40); // Move down
+      return;
+    }
+  }
+
+  // If no ideal move is possible, choose a safe direction
+  let directions = [
+    { dx: grid, dy: 0, keyCode: 39 },  // Right
+    { dx: -grid, dy: 0, keyCode: 37 }, // Left
+    { dx: 0, dy: grid, keyCode: 40 },  // Down
+    { dx: 0, dy: -grid, keyCode: 38 }  // Up
+  ];
+
+  for (let dir of directions) {
+    nextX = snake.x + dir.dx;
+    nextY = snake.y + dir.dy;
+    if (!willCollideWithSelf(nextX, nextY)) {
+      changeDirection(dir.keyCode);
+      break;
+    }
+  }
+}
+
+// Game loop
 function loop() {
   if (gameOver) {
     context.fillStyle = 'white';
@@ -93,13 +184,17 @@ function loop() {
 
   requestAnimationFrame(loop);
 
-  // Adjusted the speed by increasing the count threshold to 6 (slower)
-  if (++count < 6) {  // Slower by skipping more frames
+  if (++count < 20) {  // Slower by skipping more frames
     return;
   }
 
   count = 0;
   context.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Autopilot mode, emit key presses based on the apple's location
+  if (autopilot) {
+    autopilotMove();
+  }
 
   // Move snake
   snake.x += snake.dx;
@@ -112,8 +207,8 @@ function loop() {
     return;
   }
 
-  // Send snake position telemetry
-  sendTelemetry({type: 'movement', x: snake.x, y: snake.y});
+  // Send snake position telemetry (normalized to grid)
+  sendTelemetry({type: 'movement', x: snake.x / grid, y: snake.y / grid});
 
   // Keep track of where the snake has been
   snake.cells.unshift({x: snake.x, y: snake.y});
@@ -148,25 +243,18 @@ function loop() {
   });
 }
 
-// Listen to keyboard events to move the snake
+// Listen to keyboard events to move the snake and toggle autopilot
 document.addEventListener('keydown', function(e) {
-  // Prevent snake from backtracking on itself
-  if (e.which === 37 && snake.dx === 0) {
-    snake.dx = -grid;
-    snake.dy = 0;
-  } else if (e.which === 38 && snake.dy === 0) {
-    snake.dy = -grid;
-    snake.dx = 0;
-  } else if (e.which === 39 && snake.dx === 0) {
-    snake.dx = grid;
-    snake.dy = 0;
-  } else if (e.which === 40 && snake.dy === 0) {
-    snake.dy = grid;
-    snake.dx = 0;
+  // 'C' key for autopilot toggle
+  if (e.which === 67) {  // 'C' key
+    autopilot = !autopilot;
+    console.log('Autopilot mode:', autopilot);
   }
 
-  // Send key press telemetry
-  sendTelemetry({type: 'keypress', key: e.which});
+  if (!autopilot) {
+    // Prevent snake from backtracking on itself
+    changeDirection(e.which);
+  }
 });
 
 // Start the game
