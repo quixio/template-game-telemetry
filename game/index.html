@@ -79,8 +79,8 @@
       const controlsContainer = document.querySelector('.controls-container');
       const availableHeight = window.innerHeight - controlsContainer.offsetHeight;
       const minSize = Math.min(window.innerWidth, availableHeight);
-      canvas.width = minSize * 0.9; // Scale it to 90% of the smallest dimension to prevent overflow
-      canvas.height = minSize - 30;
+      canvas.width = availableHeight * 0.95;// Scale it to 90% of the smallest dimension to prevent overflow
+      canvas.height = availableHeight * 0.95;
     };
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas(); // Initial canvas sizing
