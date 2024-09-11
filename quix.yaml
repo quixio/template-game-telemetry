@@ -39,3 +39,4 @@ deployments:
 # This section describes the Topics of the data pipeline
 topics:
   - name: clickstream
+  - name: game-telemetry
