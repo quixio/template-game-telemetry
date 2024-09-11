@@ -51,15 +51,15 @@ deployments:
       - name: s3_secret_access_key
         inputType: Secret
         required: false
-        secretKey: s3_secret_access_key_key
+        secretKey: s3_secret_access_key
       - name: s3_bucket_name
         inputType: FreeText
         required: false
-        value: ''
+        value: quix-pc1hsusp59yhbmbszrpaz3epcjtp1eun1a-s3alias
       - name: s3_access_key_id
         inputType: FreeText
         required: false
-        value: ''
+        value: AKIA5JJJFC76E24MEO5M
       - name: format
         inputType: FreeText
         required: false
