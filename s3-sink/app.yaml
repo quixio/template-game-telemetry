@@ -3,25 +3,22 @@ language: Python
 variables:
   - name: input
     inputType: InputTopic
-    description: Name of the input topic to listen to.
     defaultValue: clickstream
+    required: false
+  - name: s3_secret_access_key
+    inputType: Secret
+    defaultValue: s3_secret_access_key_key
     required: false
   - name: s3_bucket_name
     inputType: FreeText
-    description: S3 Bucket name
-    required: true
+    defaultValue: ''
+    required: false
   - name: s3_access_key_id
     inputType: FreeText
-    description: S3 Access key ID
-    required: true
-  - name: s3_secret_access_key
-    inputType: Secret
-    description: S3 secret access key
-    defaultValue: s3_secret_access_key_key
-    required: true
+    defaultValue: ''
+    required: false
   - name: format
     inputType: FreeText
-    description: Message payload format
     defaultValue: json
     required: false
 dockerfile: dockerfile

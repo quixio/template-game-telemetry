@@ -11,7 +11,7 @@ s3_access_key_id = os.getenv('s3_access_key_id')
 s3_secret_access_key = os.getenv('s3_secret_access_key')
 format = os.getenv('format')
 
-app = Application(consumer_group="destination-v1.4", auto_offset_reset = "earliest")
+app = Application(consumer_group="s3-sink-v1.0", auto_offset_reset = "earliest")
 
 input_topic = app.topic(os.environ["input"])
 output_s3 = S3Sink(
