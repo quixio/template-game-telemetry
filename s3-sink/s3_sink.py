@@ -8,7 +8,7 @@ import boto3
 from botocore.config import Config
 import json
 from quixstreams.sinks import SinkBatch, BatchingSink
-from formats import S3SinkBatchFormat, JSONFormat, BytesFormat
+from formats import S3SinkBatchFormat, JSONFormat, BytesFormat, ParquetFormat
 
 import logging
 from io import BytesIO
@@ -28,6 +28,7 @@ S3FormatSpec = Literal["bytes", "json"]
 _S3_SINK_FORMATTERS: Dict[S3FormatSpec, S3SinkBatchFormat] = {
     "json": JSONFormat(),
     "bytes": BytesFormat(),
+    "parquet": ParquetFormat(),
 }
 
 LogLevel = Literal[
@@ -134,7 +135,7 @@ class S3Sink(BatchingSink):
         
     def _resolve_format(
         self,
-        formatter_spec: Union[Literal["bytes"], Literal["json"], S3SinkBatchFormat],
+        formatter_spec: Union[Literal["bytes"], Literal["json"], Literal["parquet"], S3SinkBatchFormat],
     ) -> S3SinkBatchFormat:
         if isinstance(formatter_spec, S3SinkBatchFormat):
             return formatter_spec
@@ -143,7 +144,7 @@ class S3Sink(BatchingSink):
         if formatter_obj is None:
             raise InvalidS3FormatterError(
                 f'Invalid format name "{formatter_obj}". '
-                f'Allowed values: "json", "bytes", '
+                f'Allowed values: "json", "bytes", "parquet", '
                 f"or an instance of {S3SinkBatchFormat.__class__.__name__} "
             )
         return formatter_obj

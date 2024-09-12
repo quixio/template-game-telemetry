@@ -6,7 +6,7 @@ from typing import Optional, Callable, Any, List
 
 from jsonlines import Writer
 
-__all__ = ("S3SinkBatchFormat", "JSONFormat", "BytesFormat")
+__all__ = ("S3SinkBatchFormat", "JSONFormat", "BytesFormat", "ParquetFormat")
 
 
 # TODO: Document the compatible topic formats for each formatter
@@ -94,4 +94,56 @@ class JSONFormat(S3SinkBatchFormat):
             value_bytes = f.getvalue()
             if self._compress:
                 value_bytes = gzip_compress(value_bytes)
+            return value_bytes
+        
+
+import pyarrow as pa
+import pyarrow.parquet as pq
+from io import BytesIO
+import gzip
+
+class ParquetFormat(S3SinkBatchFormat):
+    # TODO: Docs
+    def __init__(
+        self,
+        file_extension: str = ".parquet",
+        compress: bool = False,
+        compression_type: str = "snappy"  # Parquet compression: snappy, gzip, none, etc.
+    ):
+        self._compress = compress
+        self._compression_type = compression_type if compress else "none"
+        self._file_extension = file_extension
+
+    @property
+    def file_extension(self) -> str:
+        return self._file_extension
+
+    def deserialize_value(self, value: bytes) -> Any:
+        # Use pyarrow to load Parquet data
+        with BytesIO(value) as f:
+            table = pq.read_table(f)
+            return table.to_pydict()
+
+    def serialize_batch_values(self, values: List[Any]) -> bytes:
+        # Get all unique keys (columns) across all rows
+        all_keys = set()
+        for row in values:
+            all_keys.update(row.keys())
+
+        # Normalize rows: Ensure all rows have the same keys, filling missing ones with None
+        normalized_values = [
+            {key: row.get(key, None) for key in all_keys} for row in values
+        ]
+
+        # Convert normalized values to a pyarrow Table
+        columns = {key: [row[key] for row in normalized_values] for key in all_keys}
+        table = pa.Table.from_pydict(columns)
+
+        with BytesIO() as f:
+            pq.write_table(table, f, compression=self._compression_type)
+            value_bytes = f.getvalue()
+
+            if self._compress and self._compression_type == "none":  # Handle manual gzip if no Parquet compression
+                value_bytes = gzip.compress(value_bytes)
+
             return value_bytes
