@@ -195,7 +195,7 @@ function generateGUID() {
   
     requestAnimationFrame(loop);
   
-    if (++count < 20) {  // Slower by skipping more frames
+    if (++count < 20 - snake.cells.length) {  // Slower by skipping more frames
       return;
     }
   
