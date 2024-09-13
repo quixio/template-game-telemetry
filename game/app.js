@@ -93,8 +93,8 @@ function generateGUID() {
     snake.maxCells = 4;
     snake.dx = grid;
     snake.dy = 0;
-    apple.x = getRandomInt(0, 25) * grid;
-    apple.y = getRandomInt(0, 25) * grid;
+    apple.x = getRandomInt(0, canvas.width / grid) * grid;
+    apple.y = getRandomInt(0, canvas.width / grid) * grid;
     gameOver = false;
   }
   
@@ -247,8 +247,8 @@ function generateGUID() {
       // Snake eats the apple
       if (cell.x === apple.x && cell.y === apple.y) {
         snake.maxCells++;
-        apple.x = getRandomInt(0, 25) * grid;
-        apple.y = getRandomInt(0, 25) * grid;
+        apple.x = getRandomInt(0, canvas.width / grid) * grid;
+        apple.y = getRandomInt(0, canvas.width / grid) * grid;
         sendTelemetry({
             type: 'apple-eaten',
             x: snake.x / grid,

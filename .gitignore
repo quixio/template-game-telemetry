@@ -5,3 +5,5 @@ compose.local.yaml
 certificates/
 
 .vevn/
+
+s3-sink/__pycache__/

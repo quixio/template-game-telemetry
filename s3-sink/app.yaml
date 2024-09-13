@@ -1,0 +1,26 @@
+name: s3-sink
+language: Python
+variables:
+  - name: input
+    inputType: InputTopic
+    defaultValue: clickstream
+    required: false
+  - name: s3_secret_access_key
+    inputType: Secret
+    defaultValue: s3_secret_access_key_key
+    required: false
+  - name: s3_bucket_name
+    inputType: FreeText
+    defaultValue: ''
+    required: false
+  - name: s3_access_key_id
+    inputType: FreeText
+    defaultValue: ''
+    required: false
+  - name: format
+    inputType: FreeText
+    defaultValue: json
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py

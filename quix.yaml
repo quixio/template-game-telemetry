@@ -35,6 +35,35 @@ deployments:
       enabled: true
       urlPrefix: game
     variables: []
+  - name: s3-sink
+    application: s3-sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 1000
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        required: false
+        value: clickstream
+      - name: s3_secret_access_key
+        inputType: Secret
+        required: false
+        secretKey: s3_secret_access_key
+      - name: s3_bucket_name
+        inputType: FreeText
+        required: false
+        value: quix-pc1hsusp59yhbmbszrpaz3epcjtp1eun1a-s3alias
+      - name: s3_access_key_id
+        inputType: FreeText
+        required: false
+        value: AKIA5JJJFC76E24MEO5M
+      - name: format
+        inputType: FreeText
+        required: false
+        value: json
 
 # This section describes the Topics of the data pipeline
 topics:
