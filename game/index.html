@@ -18,6 +18,8 @@
     canvas {
       border: 1px solid white;
       touch-action: none; /* Prevent touch interference */
+      margin: auto; /* Center canvas horizontally */
+      display: block;
     }
 
     .controls-container {
@@ -81,8 +83,9 @@
       const availableWidth = window.innerWidth;
       const availableSpace = Math.min(availableHeight, availableWidth)
       const minSize = Math.min(window.innerWidth, availableSpace);
-      canvas.width = minSize - 30;// Scale it to 90% of the smallest dimension to prevent overflow
-      canvas.height = minSize - 30;
+      const size = Math.min(minSize, 400); // Limit canvas size to 400px
+      canvas.width = size - 30;// Scale it to 90% of the smallest dimension to prevent overflow
+      canvas.height = size - 30;
     };
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas(); // Initial canvas sizing
