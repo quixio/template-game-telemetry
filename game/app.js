@@ -51,7 +51,7 @@ function generateGUID() {
 }
 
   // Set up WebSocket connection
-  var socket = new WebSocket(getWebSocketURL(document.location) + "/" + session_id);
+  var socket = new WebSocket(getWebSocketURL(document.location) + session_id);
   
   socket.onopen = function(event) {
     console.log('Connected to WebSocket');
