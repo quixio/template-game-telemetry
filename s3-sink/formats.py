@@ -128,15 +128,21 @@ class ParquetFormat(S3SinkBatchFormat):
         # Get all unique keys (columns) across all rows
         all_keys = set()
         for row in values:
-            all_keys.update(row.keys())
+            all_keys.update(row.value.keys())
 
         # Normalize rows: Ensure all rows have the same keys, filling missing ones with None
         normalized_values = [
-            {key: row.get(key, None) for key in all_keys} for row in values
+            {key: row.value.get(key, None) for key in all_keys} for row in values
         ]
 
+        columns = {
+            "timestamp": [row.timestamp for row in values], 
+            "key": [bytes.decode(row.key) for row in values]
+        }
+
         # Convert normalized values to a pyarrow Table
-        columns = {key: [row[key] for row in normalized_values] for key in all_keys}
+        columns = {**columns, **{key: [row[key] for row in normalized_values] for key in all_keys}}
+                   
         table = pa.Table.from_pydict(columns)
 
         with BytesIO() as f:

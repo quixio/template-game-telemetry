@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-app = Application(consumer_group="destination-v1.5", auto_offset_reset = "earliest")
+app = Application(consumer_group="destination-v1.6", auto_offset_reset = "earliest")
 
 input_topic = app.topic(os.environ["input"])
 output_s3 = S3Sink(

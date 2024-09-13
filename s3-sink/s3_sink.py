@@ -82,7 +82,7 @@ class S3Sink(BatchingSink):
         
     
 
-    def build_bucket_file_path(self, topic: str, item) -> str:
+    def build_bucket_file_path(self, topic: str, item, partition:int) -> str:
         """
         Build a file path for the batch in the S3 bucket
 
@@ -121,10 +121,10 @@ class S3Sink(BatchingSink):
         files = {}
         
         for item in batch:
-            path = self.build_bucket_file_path(topic=batch.topic, item=item)
+            path = self.build_bucket_file_path(topic=batch.topic, item=item, partition=batch.partition)
             if path not in files:
                 files[path] = []
-            files[path].append(item.value)
+            files[path].append(item)
 
         for file in files:
             files[file] = self._format.serialize_batch_values(files[file])
