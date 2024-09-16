@@ -247,8 +247,10 @@ function generateGUID() {
       // Snake eats the apple
       if (cell.x === apple.x && cell.y === apple.y) {
         snake.maxCells++;
+        // Generate a new apple
         apple.x = getRandomInt(0, canvas.width / grid) * grid;
         apple.y = getRandomInt(0, canvas.width / grid) * grid;
+        // Send apple eaten message to telemetry api
         sendTelemetry({
             type: 'apple-eaten',
             x: snake.x / grid,
@@ -256,6 +258,13 @@ function generateGUID() {
             snakeLength: snake.cells.length,
             session_id: session_id
           });
+        // Send telemetry for new apple location
+        sendTelemetry({
+            type: 'new-apple',
+            x: apple.x,
+            y: apple.y,
+            session_id: session_id
+        });
       }
   
       // Check for collision with itself
