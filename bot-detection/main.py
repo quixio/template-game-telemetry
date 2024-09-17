@@ -11,7 +11,8 @@ import joblib  # or use pickle if you prefer
 from dotenv import load_dotenv
 load_dotenv()
 
-
+print(os.environ["AWS_ACCESS_KEY_ID"])
+print(os.environ["AWS_SECRET_ACCESS_KEY"])
 # Step 1: Download the model from S3
 def download_from_s3(bucket_name, s3_file, local_file):
     s3 = boto3.client('s3')
