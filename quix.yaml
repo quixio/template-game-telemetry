@@ -84,6 +84,11 @@ deployments:
         required: false
         value: bot-detection
       - name: AWS_SECRET_ACCESS_KEY
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: s3_secret_access_key
+      - name: AWS_ACCESS_KEY_ID
         inputType: FreeText
         description: ''
         required: true
