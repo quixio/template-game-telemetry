@@ -248,7 +248,7 @@ sdf["is_bot"] = sdf.apply(predict_bot)
 sdf.drop("value")
 
 sdf.print()
-# sdf.to_topic(output_topic)
+sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run(sdf)
