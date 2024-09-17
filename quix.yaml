@@ -92,7 +92,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: hkTwOVve8Fn901ra2nHvfl3Cssgqzh8pD3OF2TPm
+        value: AKIA5JJJFC76E24MEO5M
 
 # This section describes the Topics of the data pipeline
 topics:
