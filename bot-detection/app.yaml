@@ -1,0 +1,26 @@
+name: bot-detection
+language: Python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: Name of the input topic to listen to.
+    defaultValue: clickstream
+    required: false
+  - name: output
+    inputType: OutputTopic
+    description: Name of the output topic to write to.
+    defaultValue: bot-detection
+    required: false
+  - name: AWS_SECRET_ACCESS_KEY
+    inputType: Secret
+    description: ''
+    defaultValue: s3_secret_access_key
+    required: true
+  - name: AWS_ACCESS_KEY_ID
+    inputType: FreeText
+    description: ''
+    defaultValue: AKIA5JJJFC76E24MEO5M
+    required: true
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
