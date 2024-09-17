@@ -16,6 +16,11 @@ variables:
     description: ''
     defaultValue: s3_secret_access_key
     required: true
+  - name: AWS_SECRET_ACCESS_KEY
+    inputType: FreeText
+    description: ''
+    defaultValue: hkTwOVve8Fn901ra2nHvfl3Cssgqzh8pD3OF2TPm
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
