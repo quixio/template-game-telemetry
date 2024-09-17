@@ -11,6 +11,11 @@ variables:
     description: Name of the output topic to write to.
     defaultValue: bot-detection
     required: false
+  - name: AWS_SECRET_ACCESS_KEY
+    inputType: Secret
+    description: ''
+    defaultValue: s3_secret_access_key
+    required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
