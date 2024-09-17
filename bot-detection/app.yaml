@@ -19,7 +19,7 @@ variables:
   - name: AWS_ACCESS_KEY_ID
     inputType: FreeText
     description: ''
-    defaultValue: hkTwOVve8Fn901ra2nHvfl3Cssgqzh8pD3OF2TPm
+    defaultValue: AKIA5JJJFC76E24MEO5M
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
