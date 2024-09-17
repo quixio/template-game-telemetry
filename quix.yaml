@@ -64,6 +64,35 @@ deployments:
         inputType: FreeText
         required: false
         value: json
+  - name: Bot detection
+    application: bot-detection
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: clickstream
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: bot-detection
+      - name: AWS_SECRET_ACCESS_KEY
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: s3_secret_access_key
+      - name: AWS_ACCESS_KEY_ID
+        inputType: FreeText
+        description: ''
+        required: true
+        value: AKIA5JJJFC76E24MEO5M
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -72,3 +101,4 @@ topics:
       partitions: 4
       retentionInMinutes: -1
       retentionInBytes: 1048576000
+  - name: bot-detection
