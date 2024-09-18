@@ -38,7 +38,7 @@ sdf = (
     #sdf.filter(can_process)
 
     # Define a tumbling window of 10 minutes
-    sdf.tumbling_window(timedelta(minutes=10))
+    sdf.tumbling_window(timedelta(seconds=10))
 
     # Create a "reduce" aggregation with "reducer" and "initializer" functions
     .reduce(reducer=reducer, initializer=initializer)
