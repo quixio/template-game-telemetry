@@ -12,18 +12,17 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-# Using "reduce()" to calculate multiple aggregates at once
-def reducer(agg: dict, current: int):
-    aggregated = {
-        'min': min(agg['min'], current),
-        'max': max(agg['max'], current),
-        'count': agg['count'] + 1
-    }
-    return aggregated
+def reducer(agg: dict, current: dict):
+    for key, value in current.items():
+        if key in agg:
+            agg[key] += value
+        else:
+            agg[key] = value
+    return agg
 
 def initializer(current) -> dict:
-    return {'min': current, 'max': current, 'count': 1}
-
+    return current
+    
 window = (
     sdf.tumbling_window(duration_ms=1000)
     .reduce(reducer=reducer, initializer=initializer)
