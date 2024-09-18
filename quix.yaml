@@ -245,7 +245,7 @@ deployments:
       replicas: 1
     publicAccess:
       enabled: true
-      urlPrefix: game-cf43a85
+      urlPrefix: game
     variables: []
 
 # This section describes the Topics of the data pipeline
