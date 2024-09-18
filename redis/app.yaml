@@ -1,0 +1,6 @@
+name: redis
+language: Python
+variables: []
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
