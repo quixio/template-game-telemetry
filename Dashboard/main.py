@@ -1,7 +1,8 @@
 import os
+import redis
 import datetime
 import json
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template_string
 from waitress import serve
 
 from setup_logging import get_logger
@@ -20,22 +21,33 @@ logger = get_logger()
 
 app = Flask(__name__)
 
+# Connect to Redis
+client = redis.Redis(host='redis', port=6379, decode_responses=True)
 
-@app.route("/data/", methods=['POST'])
-def post_data():
-    
-    data = request.json
 
-    print(data)
-
-    logger.info(f"{str(datetime.datetime.utcnow())} posted.")
-    
-    producer.produce(topic.name, json.dumps(data), "hello-world-stream")
-
-    response = Response(status=200)
-    response.headers.add('Access-Control-Allow-Origin', '*')
-
-    return response
+@app.route('/')
+def index():
+    # Get all keys from Redis
+    keys = client.keys('*')
+    values = {key: client.get(key) for key in keys}
+    return render_template_string('''
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Redis Values</title>
+        </head>
+        <body>
+            <h1>Redis Values</h1>
+            <ul>
+                {% for key, value in values.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </body>
+        </html>
+    ''', values=values)
 
 
 if __name__ == '__main__':
