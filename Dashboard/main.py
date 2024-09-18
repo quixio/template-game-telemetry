@@ -23,7 +23,13 @@ def index():
         key = f"b'{guid}'"
         return is_bot_flags.get(key, None)  
 
-    print(is_bot_flags)
+    # Add is_bot flag to game_scores
+    for key, value in game_scores.items():
+        guid = value['game_id']
+        is_bot_key = f"b'{guid}'"
+        value['is_bot'] = is_bot_flags.get(is_bot_key, 0)
+
+    print(value)
 
     return render_template_string('''
         <!DOCTYPE html>
@@ -41,11 +47,7 @@ def index():
         <body>
             <h1>Redis Values</h1>
             <ul>
-                {% for key, value in game_scores.items() %}
-                    <li class="{{ 'cheater' if get_is_bot_value(value.game_id) == 1 else '' }}">
-                        <strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>is_bot:</strong> {{ get_is_bot_value(value.game_id) }}
-                    </li>
-                {% endfor %}
+
             </ul>
             <div>
                 <p>Next refresh in <span id="countdown">5</span> seconds</p>
