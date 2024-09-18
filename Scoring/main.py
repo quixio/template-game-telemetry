@@ -37,7 +37,7 @@ def reducer(aggregated: dict, value: dict) -> dict:
     }
 
 def calc_score(data: dict, state: State):
-    score = state.get('score')
+    score = state.get('score', 0)
     if data['type'] == 'apple-eaten':
         score += 1
         print("Apple eaten..")
