@@ -42,7 +42,7 @@ def p(row):
 
 sdf.apply(p)
 
-# sdf.print()
+sdf.print()
 # sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
