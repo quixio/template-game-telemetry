@@ -2,7 +2,7 @@ import redis
 
 def test_redis():
     # Connect to Redis server
-    client = redis.Redis(host='localhost', port=6379, db=0)
+    client = redis.Redis(host='0.0.0.0', port=6379, db=0)
 
     # Test setting a key
     client.set('test_key', 'test_value')
