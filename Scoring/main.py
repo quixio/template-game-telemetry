@@ -42,7 +42,7 @@ def calc_score(data: dict, state: State):
         score += 1
         print("Apple eaten..")
     state.set('score', score)
-    value['score'] = score
+    data['score'] = score
 
 sdf = (
 
