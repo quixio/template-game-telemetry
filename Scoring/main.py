@@ -49,7 +49,7 @@ sdf = sdf.update(calc_score, stateful=True)
 sdf = sdf.update(lambda row: print(row))
 
 def predict_bot(rows):
-    data = pd.DataFrame(rows["score"])
+    data = rows["score"]
     return data
 
 sdf["data"] = sdf.apply(predict_bot)
