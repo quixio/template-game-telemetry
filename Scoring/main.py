@@ -13,12 +13,12 @@ output_topic = app.topic(os.environ["output"])
 sdf = app.dataframe(input_topic)
 
 def should_skip(data):
-    return data.get('type')# == "apple-eaten"
+    return data.get('type') != "apple-eaten"
 
 sdf = (
     sdf.filter(should_skip)
     # Extract "temperature" value from the message
-    .apply(lambda value: value["type"])
+    .apply(1)
     # You can also pass duration_ms as an integer of milliseconds
     .tumbling_window(duration_ms=5000)
     # Specify the "sum" aggregate function
