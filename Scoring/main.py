@@ -25,7 +25,10 @@ def initializer(value: dict) -> dict:
 
 
 def reducer(aggregated: dict, value: dict) -> dict:
-    score = aggregated['score'] + 1
+
+    if value['type'] == 'apple-eaten':
+        score = aggregated['score'] + 1
+    
     return {
         'session_id': value['session_id'],
         'score': score
