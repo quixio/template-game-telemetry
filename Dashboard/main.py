@@ -29,8 +29,8 @@ def index():
         guid = value['game_id']
         is_bot_key = f"b'{guid}'"
         value['is_bot'] = is_bot_flags.get(is_bot_key, 0)
+        print(value['is_bot'])
 
-    print(value)
 
     return render_template_string('''
         <!DOCTYPE html>
