@@ -1,23 +1,20 @@
-import os
-from quixstreams import Application
+import redis
 
-# for local dev, load env vars from a .env file
-from dotenv import load_dotenv
-load_dotenv()
+def test_redis():
+    # Connect to Redis server
+    client = redis.Redis(host='localhost', port=6379, db=0)
 
-app = Application(consumer_group="transformation-v1", auto_offset_reset="earliest")
+    # Test setting a key
+    client.set('test_key', 'test_value')
 
-input_topic = app.topic(os.environ["input"])
-output_topic = app.topic(os.environ["output"])
+    # Test getting the key
+    value = client.get('test_key').decode('utf-8')
 
-sdf = app.dataframe(input_topic)
+    # Print the result
+    print(f"Value for 'test_key': {value}")
 
-# put transformation logic here
-# see docs for what you can do
-# https://quix.io/docs/get-started/quixtour/process-threshold.html
-
-sdf.print()
-sdf.to_topic(output_topic)
+    # Clean up
+    client.delete('test_key')
 
 if __name__ == "__main__":
-    app.run(sdf)
+    test_redis()
