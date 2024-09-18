@@ -22,7 +22,7 @@ sdf = (
     # You can also pass duration_ms as an integer of milliseconds
     .tumbling_window(duration_ms=5000)
     # Specify the "mean" aggregate function
-    .mean()
+    .sum()
     # Emit updates for each incoming message
     .current()
 )
