@@ -46,7 +46,7 @@ def calc_score(data: dict, state: State):
 
 sdf = (
 
-    sdf.apply(calc_score, stateful=True)
+    sdf.update(calc_score, stateful=True)
 
 #     # filter to only process data relating to the players score
 #     #sdf.filter(can_process)
