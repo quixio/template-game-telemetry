@@ -48,7 +48,10 @@ def calc_score(data: dict, state: State):
 sdf = sdf.update(calc_score, stateful=True)
 
 def score_json(rows):
-    data = rows["score"]
+    data = {
+        'score': rows["score"],
+        'length': rows['snakeLength']
+    }
     return data
 
 sdf = sdf.apply(score_json)
