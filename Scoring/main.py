@@ -15,7 +15,7 @@ output_topic = app.topic(os.environ["output"])
 sdf = app.dataframe(input_topic)
 
 def can_process(data):
-    return data.get('type')
+    return data.get('type') and data.get('snakeLength')
 
 
 def initializer(value: dict) -> dict:
@@ -41,10 +41,13 @@ def calc_score(data: dict, state: State):
     score = state.get('score', 0)
     if data['type'] == 'apple-eaten':
         score += 1
-        print("Apple eaten..")
+        # print("Apple eaten..")
     state.set('score', score)
     data['score'] = score
 
+
+
+sdf = sdf.filter(can_process)
 sdf = sdf.update(calc_score, stateful=True)
 
 def score_json(rows):
