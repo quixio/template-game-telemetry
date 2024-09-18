@@ -1,16 +1,23 @@
+import os
 from quixstreams import Application
-from datetime import timedelta
 
-app = Application()
+# for local dev, load env vars from a .env file
+from dotenv import load_dotenv
+load_dotenv()
 
-input_topic = app.topic("input-topic")
+app = Application(consumer_group="transformation-v1", auto_offset_reset="earliest")
+
+input_topic = app.topic(os.environ["input"])
+output_topic = app.topic(os.environ["output"])
+
 sdf = app.dataframe(input_topic)
-sdf = (
-    sdf.tumbling_window(duration_ms=timedelta(minutes=1))
-    .aggregate(lambda df: df.to_json(orient='records'))  # Combine data into JSON format
-    .final()
-)
+
+# put transformation logic here
+# see docs for what you can do
+# https://quix.io/docs/get-started/quixtour/process-threshold.html
 
 sdf.print()
+sdf.to_topic(output_topic)
 
-app.run(sdf)
+if __name__ == "__main__":
+    app.run(sdf)
