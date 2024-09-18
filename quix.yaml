@@ -117,8 +117,8 @@ deployments:
     version: latest
     deploymentType: Service
     resources:
-      cpu: 200
-      memory: 500
+      cpu: 2000
+      memory: 5000
       replicas: 1
     variables: []
     ports:
