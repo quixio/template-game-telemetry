@@ -1,22 +1,6 @@
-import os
+from flask import Flask, render_template_string
 import redis
 import json
-from flask import Flask, request, Response, render_template_string
-from waitress import serve
-
-from setup_logging import get_logger
-
-from quixstreams import Application
-
-# for local dev, load env vars from a .env file
-from dotenv import load_dotenv
-load_dotenv()
-
-quix_app = Application()
-topic =  quix_app.topic(os.environ["output"])
-producer = quix_app.get_producer()
-
-logger = get_logger()
 
 app = Flask(__name__)
 
@@ -35,6 +19,11 @@ def index():
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Redis Values</title>
+            <style>
+                .refresh-toggle {
+                    margin-top: 20px;
+                }
+            </style>
         </head>
         <body>
             <h1>Redis Values</h1>
@@ -43,10 +32,41 @@ def index():
                     <li><strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }}</li>
                 {% endfor %}
             </ul>
+            <div>
+                <p>Next refresh in <span id="countdown">5</span> seconds</p>
+                <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh</button>
+            </div>
+            <script>
+                let countdown = 5;
+                let autoRefresh = true;
+                const countdownElement = document.getElementById('countdown');
+                const toggleButton = document.getElementById('toggle-refresh');
+
+                function updateCountdown() {
+                    if (autoRefresh) {
+                        countdown--;
+                        if (countdown <= 0) {
+                            location.reload();
+                        }
+                        countdownElement.textContent = countdown;
+                    }
+                }
+
+                setInterval(updateCountdown, 1000);
+
+                toggleButton.addEventListener('click', function() {
+                    autoRefresh = !autoRefresh;
+                    if (autoRefresh) {
+                        toggleButton.textContent = 'Disable Auto-Refresh';
+                        countdown = 5;
+                    } else {
+                        toggleButton.textContent = 'Enable Auto-Refresh';
+                    }
+                });
+            </script>
         </body>
         </html>
     ''', values=values)
 
-
 if __name__ == '__main__':
-    serve(app, host="0.0.0.0", port=80)
+    app.run(host='0.0.0.0', port=5000)
