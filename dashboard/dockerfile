@@ -1,15 +1,20 @@
-# Step 1: Use an official Nginx image as the base
-FROM nginx:alpine
+   # Use the official Python image from the Docker Hub
+   FROM python:3.9-slim
 
-# Step 2: Set the working directory to Nginx's default html directory
-WORKDIR /usr/share/nginx/html
+   # Set the working directory
+   WORKDIR /app
 
-# Step 3: Copy the static files (index.html and app.js) to the Nginx html directory
-COPY index.html /usr/share/nginx/html/
-COPY app.js /usr/share/nginx/html/
+   # Copy the requirements file
+   COPY requirements.txt .
 
-# Step 4: Expose port 80 to the outside world
-EXPOSE 80
+   # Install the required packages
+   RUN pip install -r requirements.txt
 
-# Step 5: Start Nginx server
-CMD ["nginx", "-g", "daemon off;"]
+   # Copy the Flask application
+   COPY app.py .
+
+   # Expose the port the app runs on
+   EXPOSE 5000
+
+   # Run the Flask application
+   CMD ["python", "app.py"]
