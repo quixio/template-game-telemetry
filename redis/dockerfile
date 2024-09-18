@@ -1,14 +1,16 @@
-   # Use the official Redis image from the Docker Hub
-   FROM redis:latest
+# Use the official Redis image from the Docker Hub
+FROM redis:latest
 
-   # Expose the default Redis port
-   EXPOSE 6379
+# Expose the default Redis port
+EXPOSE 6379
 
-   # Copy the start script into the container
-   COPY start-redis.sh /usr/local/bin/start-redis.sh
+# Create the start script directly in the Dockerfile
+RUN echo '#!/bin/sh\n' \
+         'ip addr show eth0 | grep "inet\b" | awk "{print \$2}" | cut -d/ -f1\n' \
+         'redis-server\n' > /usr/local/bin/start-redis.sh
 
-   # Make the script executable
-   RUN chmod +x /usr/local/bin/start-redis.sh
+# Make the script executable
+RUN chmod +x /usr/local/bin/start-redis.sh
 
-   # Set the entrypoint to the start script
-   ENTRYPOINT ["/usr/local/bin/start-redis.sh"]
+# Set the entrypoint to the start script
+ENTRYPOINT ["/usr/local/bin/start-redis.sh"]
