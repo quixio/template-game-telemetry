@@ -58,7 +58,7 @@ sdf = sdf.update(calc_score, stateful=True)
 #     .current()
 # )
 
-sdf = [sdf["value"]]
+# sdf = [sdf["value"]]
 
 # sdf.print()
 sdf = sdf.update(lambda row: print(row))
