@@ -1,5 +1,5 @@
 import os
-from quixstreams import Application
+from quixstreams import Application, State
 from datetime import timedelta
 
 # for local dev, load env vars from a .env file
@@ -36,20 +36,24 @@ def reducer(aggregated: dict, value: dict) -> dict:
         'score': score
     }
 
+def calc_score(data: dict, state: State):
+    ...
 
 sdf = (
 
-    # filter to only process data relating to the players score
-    #sdf.filter(can_process)
+    sdf.apply(calc_score, stateful=True)
 
-    # Define a tumbling window of 10 minutes
-    sdf.tumbling_window(timedelta(seconds=10))
+#     # filter to only process data relating to the players score
+#     #sdf.filter(can_process)
 
-    # Create a "reduce" aggregation with "reducer" and "initializer" functions
-    .reduce(reducer=reducer, initializer=initializer)
+#     # Define a tumbling window of 10 minutes
+#     sdf.tumbling_window(timedelta(seconds=10))
 
-    # Emit results only for closed windows
-    .final()
+#     # Create a "reduce" aggregation with "reducer" and "initializer" functions
+#     .reduce(reducer=reducer, initializer=initializer)
+
+#     # Emit results only for closed windows
+#     .final()
 )
 
 
