@@ -6,22 +6,24 @@
 //   }
   
 
-    const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "white"];
-    const animals = ["cat", "dog", "elephant", "tiger", "lion", "bear", "wolf", "fox", "cow", "duck"];
-    const verbs = ["running", "jumping", "flying", "swimming", "dancing", "singing", "reading", "writing", "playing", "sleeping"];
+const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "white"];
+const animals = ["cat", "dog", "elephant", "tiger", "lion", "bear", "wolf", "fox", "cow", "duck"];
+const verbs = ["running", "jumping", "flying", "swimming", "dancing", "singing", "reading", "writing", "playing", "sleeping"];
 
-    function getRandomElement(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-    }
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
 
-    function generateGUID() {
-        const color = getRandomElement(colors);
-        const animal = getRandomElement(animals);
-        const verb = getRandomElement(verbs);
-        return `${color}-${animal}-${verb}`;
-    }
+function generateGUID() {
+    const color = getRandomElement(colors);
+    const animal = getRandomElement(animals);
+    const verb = getRandomElement(verbs);
+    return `${color}-${animal}-${verb}`;
+}
 
   const session_id = generateGUID();
+  document.getElementById('guid-display').textContent = guid;
+
   
   var canvas = document.getElementById('game');
   var context = canvas.getContext('2d');
