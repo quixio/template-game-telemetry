@@ -22,7 +22,7 @@ function generateGUID() {
 }
 
   const session_id = generateGUID();
-  document.getElementById('guid-display').textContent = guid;
+  document.getElementById('guid-display').textContent = session_id;
 
   
   var canvas = document.getElementById('game');
