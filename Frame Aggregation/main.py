@@ -5,7 +5,7 @@ from quixstreams import Application
 from dotenv import load_dotenv
 load_dotenv()
 
-app = Application(consumer_group="transformation-v3", auto_offset_reset="earliest")
+app = Application(consumer_group="transformation-v4", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])
@@ -18,6 +18,8 @@ def reducer(agg: dict, current: dict):
             agg[key] += value
         else:
             agg[key] = value
+
+    print(agg)
     return agg
 
 def initializer(current) -> dict:
@@ -29,7 +31,7 @@ window = (
     .final()
 )
 
-sdf.print()
+# sdf.print()
 # sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
