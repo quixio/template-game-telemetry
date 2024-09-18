@@ -12,7 +12,7 @@ load_dotenv()
 r = redis.Redis(
     host=os.environ['redis_host'],
     port=int(int(os.environ['redis_port'])),
-    password=os.environ['redis_password'],
+    password=os.environ['redis_password'] if 'redis_password' in os.environ else None,
     username=os.environ['redis_username'] if 'redis_username' in os.environ else None,
     decode_responses=True)
 
