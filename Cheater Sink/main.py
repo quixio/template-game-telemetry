@@ -35,7 +35,7 @@ def send_data_to_redis(value: dict, key, ts, headers) -> None:
     redis_key = f"{redis_key_prefix}:{key}"
 
     # Store the JSON string in Redis
-    r.set(redis_key, json_data)
+    r.set(redis_key, json_data['is_bot'])
 
     print(f"Data stored in Redis under key: {redis_key}")
 
