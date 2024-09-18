@@ -23,7 +23,7 @@ app = Application(consumer_group="redis-destination")
 input_topic = app.topic(os.environ["input"])
 
 
-def send_data_to_redis(value: dict, key) -> None:
+def send_data_to_redis(value: dict, key, c, d) -> None:
     print(value)
     print("--")
     print(key)
