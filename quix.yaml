@@ -112,6 +112,15 @@ deployments:
         description: ''
         required: true
         value: AKIA5JJJFC76E24MEO5M
+  - name: redis
+    application: redis
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:
