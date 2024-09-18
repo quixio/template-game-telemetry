@@ -112,20 +112,6 @@ deployments:
         description: ''
         required: true
         value: AKIA5JJJFC76E24MEO5M
-  - name: redis
-    application: redis
-    version: latest
-    deploymentType: Service
-    resources:
-      cpu: 2000
-      memory: 5000
-      replicas: 1
-    network:
-      serviceName: redis
-      ports:
-        - port: 6379
-          targetPort: 6379
-    variables: []
   - name: Scoring
     application: Scoring
     version: latest
@@ -184,6 +170,20 @@ deployments:
         description: The prefix for the key to store data under
         required: false
         value: game_score
+  - name: Redis
+    application: redis
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 2000
+      memory: 5000
+      replicas: 1
+    network:
+      serviceName: redis
+      ports:
+        - port: 6379
+          targetPort: 6379
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:
