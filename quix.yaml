@@ -121,6 +121,9 @@ deployments:
       memory: 500
       replicas: 1
     variables: []
+    ports:
+    - port: 6379
+      targetPort: 6379
 
 # This section describes the Topics of the data pipeline
 topics:
