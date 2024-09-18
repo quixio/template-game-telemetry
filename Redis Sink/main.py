@@ -32,7 +32,7 @@ def send_data_to_redis(value: dict) -> None:
     # Use a Redis key for storing the JSON data. This key can be a combination of
     # some unique identifier in your value dict, like a timestamp or a specific tag.
     # For this example, let's assume you have a unique 'id' in your value dict.
-    key = f"{redis_key_prefix}:{value['key']}"
+    key = f"{redis_key_prefix}:{value['score']}"
 
     # Store the JSON string in Redis
     r.set(key, json_data)
