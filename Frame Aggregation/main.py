@@ -5,7 +5,7 @@ from quixstreams import Application
 from dotenv import load_dotenv
 load_dotenv()
 
-app = Application(consumer_group="transformation-v2", auto_offset_reset="earliest")
+app = Application(consumer_group="transformation-v3", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])
@@ -24,7 +24,7 @@ def initializer(current) -> dict:
     return current
     
 window = (
-    sdf.tumbling_window(duration_ms=5000)
+    sdf.tumbling_window(duration_ms=10000)
     .reduce(reducer=reducer, initializer=initializer)
     .final()
 )
