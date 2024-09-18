@@ -18,6 +18,8 @@ def index():
     # Get is_bot items (do nothing with them for now)
     is_bot_flags = {key.split(':')[1]: int(client.get(key)) for key in keys if key.startswith('is_bot')}
     
+    print(is_bot_flags)
+
     return render_template_string('''
         <!DOCTYPE html>
         <html lang="en">
