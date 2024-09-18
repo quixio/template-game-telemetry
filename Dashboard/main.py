@@ -12,14 +12,11 @@ def index():
     # Get all keys from Redis
     keys = client.keys('*')
     
-    # Separate game scores and is_bot flags
+    # Get game_score items
     game_scores = {key: json.loads(client.get(key)) for key in keys if key.startswith('game_score')}
-    is_bot_flags = {}
-    for key in keys:
-        if key.startswith('is_bot'):
-            session_id = key.split(':')[1]
-            value = json.loads(client.get(key))
-            is_bot_flags[session_id] = value.get('is_bot', 0)
+    
+    # Get is_bot items (do nothing with them for now)
+    is_bot_flags = {key.split(':')[1]: int(client.get(key)) for key in keys if key.startswith('is_bot')}
     
     return render_template_string('''
         <!DOCTYPE html>
@@ -28,17 +25,12 @@ def index():
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Redis Values</title>
-            <style>
-                .cheater {
-                    background-color: red;
-                }
-            </style>
         </head>
         <body>
             <h1>Redis Values</h1>
             <ul>
                 {% for key, value in game_scores.items() %}
-                    <li class="{{ 'cheater' if is_bot_flags.get(value.game_id) == 1 else '' }}">
+                    <li>
                         <strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }}
                     </li>
                 {% endfor %}
@@ -77,7 +69,7 @@ def index():
             </script>
         </body>
         </html>
-    ''', game_scores=game_scores, is_bot_flags=is_bot_flags)
+    ''', game_scores=game_scores)
 
 
 if __name__ == '__main__':
