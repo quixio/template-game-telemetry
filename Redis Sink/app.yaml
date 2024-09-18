@@ -1,0 +1,36 @@
+name: Redis Sink
+language: python
+variables:
+  - name: input
+    inputType: InputTopic
+    description: This is the input topic
+    defaultValue: score
+    required: true
+  - name: redis_host
+    inputType: FreeText
+    description: Host address for the Redis instance
+    defaultValue: ''
+    required: true
+  - name: redis_port
+    inputType: FreeText
+    description: Port for the Redis instance
+    defaultValue: 6379
+    required: true
+  - name: redis_password
+    inputType: FreeText
+    description: Password for the Redis instance
+    defaultValue: ''
+    required: false
+  - name: redis_username
+    inputType: FreeText
+    description: Username for the Redis instance
+    defaultValue: ''
+    required: false
+  - name: redis_key_prefix
+    inputType: FreeText
+    description: The prefix for the key to store data under
+    defaultValue: ''
+    required: false
+dockerfile: dockerfile
+runEntryPoint: main.py
+defaultFile: main.py
