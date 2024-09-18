@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Important for mobile scaling -->
+  <title>Snake Game with Autopilot and Telemetry</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    canvas {
+      border: 1px solid white;
+      touch-action: none; /* Prevent touch interference */
+      margin: auto; /* Center canvas horizontally */
+      display: block;
+    }
+
+    .controls-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      justify-items: center;
+      margin-bottom: 10px;
+    }
+
+    .control-button {
+      background-color: white;
+      border: 2px solid black;
+      padding: 10px; /* Reduced button height */
+      border-radius: 50%;
+      font-size: 20px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .control-button:active {
+      background-color: lightgray;
+    }
+
+    .placeholder {
+      visibility: hidden; /* Hide the placeholders */
+    }
+  </style>
+</head>
+<body>
+  <!-- Game Canvas -->
+  <canvas id="game"></canvas>
+
+  <!-- Mobile Controls for touch input (positioned below the canvas) -->
+  <div class="controls-container">
+    <div class="controls">
+      <div class="control-button placeholder"></div> <!-- Placeholder for center -->
+      <div class="control-button" id="up">▲</div>
+      <div class="control-button placeholder"></div> <!-- Placeholder for center -->
+    </div>
+    <div class="controls">
+      <div class="control-button" id="left">◀</div>
+      <div class="control-button" id="down">▼</div>
+      <div class="control-button" id="right">▶</div>
+    </div>
+  </div>
+
+  <script>
+    // Set canvas size dynamically based on available height and device width, accounting for button height
+    const resizeCanvas = () => {
+      const canvas = document.getElementById('game');
+      const controlsContainer = document.querySelector('.controls-container');
+      const availableHeight = window.innerHeight - controlsContainer.offsetHeight;
+      const availableWidth = window.innerWidth;
+      const availableSpace = Math.min(availableHeight, availableWidth)
+      const minSize = Math.min(window.innerWidth, availableSpace);
+      const size = Math.min(minSize, 400); // Limit canvas size to 400px
+      canvas.width = size - 30;// Scale it to 90% of the smallest dimension to prevent overflow
+      canvas.height = size - 30;
+    };
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas(); // Initial canvas sizing
+
+    // Snake Movement Controls for touch input
+    const controlUp = document.getElementById('up');
+    const controlDown = document.getElementById('down');
+    const controlLeft = document.getElementById('left');
+    const controlRight = document.getElementById('right');
+
+    // Dispatch key events for touch controls to simulate the keyboard
+    const dispatchKeyEvent = (keyCode) => {
+      const event = new KeyboardEvent('keydown', { keyCode: keyCode, which: keyCode });
+      document.dispatchEvent(event);
+    };
+
+    // Attach touch event listeners to buttons
+    controlUp.addEventListener('click', () => dispatchKeyEvent(38)); // Up arrow
+    controlDown.addEventListener('click', () => dispatchKeyEvent(40)); // Down arrow
+    controlLeft.addEventListener('click', () => dispatchKeyEvent(37)); // Left arrow
+    controlRight.addEventListener('click', () => dispatchKeyEvent(39)); // Right arrow
+
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
