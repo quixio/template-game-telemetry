@@ -1,8 +1,14 @@
-# Use the official Redis image from the Docker Hub
-FROM redis:latest
+   # Use the official Redis image from the Docker Hub
+   FROM redis:latest
 
-# Expose the default Redis port
-EXPOSE 6379
+   # Expose the default Redis port
+   EXPOSE 6379
 
-# Start the Redis server
-CMD ["redis-server"]
+   # Copy the start script into the container
+   COPY start-redis.sh /usr/local/bin/start-redis.sh
+
+   # Make the script executable
+   RUN chmod +x /usr/local/bin/start-redis.sh
+
+   # Set the entrypoint to the start script
+   ENTRYPOINT ["/usr/local/bin/start-redis.sh"]
