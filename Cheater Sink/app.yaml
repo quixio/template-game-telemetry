@@ -29,7 +29,7 @@ variables:
   - name: redis_key_prefix
     inputType: FreeText
     description: The prefix for the key to store data under
-    defaultValue: ''
+    defaultValue: is_bot
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
