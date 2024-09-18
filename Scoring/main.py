@@ -58,6 +58,8 @@ sdf = sdf.update(calc_score, stateful=True)
 #     .current()
 # )
 
+sdf = sdf[["value"]]
+
 sdf.print()
 # sdf.to_topic(output_topic)
 
