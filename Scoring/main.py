@@ -60,7 +60,8 @@ sdf = sdf.update(calc_score, stateful=True)
 
 sdf = [sdf["value"]]
 
-sdf.print()
+# sdf.print()
+sdf.apply(lambda x: print(x))
 # sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
