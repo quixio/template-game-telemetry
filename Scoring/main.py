@@ -51,7 +51,7 @@ def predict_bot(rows):
     data = rows["score"]
     return data
 
-sdf["data"] = sdf.apply(predict_bot)
+sdf = sdf.apply(predict_bot)
 sdf = sdf.update(lambda row: print(row))
 
 # sdf = (
