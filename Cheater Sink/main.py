@@ -26,6 +26,10 @@ input_topic = app.topic(os.environ["input"])
 def send_data_to_redis(value: dict, key, ts, headers) -> None:
     print(f'{ts} __ {key} __ {value}')
     
+    print("----------")
+    print(value['is_bot'])
+    print("----------")
+
     # Convert the entire dictionary to a JSON string
     json_data = json.dumps(value)
 
