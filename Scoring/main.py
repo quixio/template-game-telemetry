@@ -47,11 +47,11 @@ def calc_score(data: dict, state: State):
 
 sdf = sdf.update(calc_score, stateful=True)
 
-def predict_bot(rows):
+def score_json(rows):
     data = rows["score"]
     return data
 
-sdf = sdf.apply(predict_bot)
+sdf = sdf.apply(score_json)
 sdf = sdf.update(lambda row: print(row))
 
 # sdf = (
@@ -70,7 +70,7 @@ sdf = sdf.update(lambda row: print(row))
 
 # sdf.print()
 
-# sdf.to_topic(output_topic)
+sdf.to_topic(output_topic)
 
 if __name__ == "__main__":
     app.run(sdf)
