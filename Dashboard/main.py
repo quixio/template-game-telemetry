@@ -48,7 +48,11 @@ def index():
         <body>
             <h1>Redis Values</h1>
             <ul>
-
+                {% for key, value in game_scores.items() %}
+                    <li class="{{ 'cheater' if value.is_bot == 1 else '' }}">
+                        <strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>is_bot:</strong> {{ value.is_bot }}
+                    </li>
+                {% endfor %}
             </ul>
             <div>
                 <p>Next refresh in <span id="countdown">5</span> seconds</p>
