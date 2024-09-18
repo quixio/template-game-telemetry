@@ -12,7 +12,11 @@ output_topic = app.topic(os.environ["output"])
 
 sdf = app.dataframe(input_topic)
 
-# put transformation logic here
+# In this case there is nothing to normalize
+# However if you needed to you could write any code here to
+# modify the incoming game data to suit your cheater detection model
+# or other downstream services.
+
 # see docs for what you can do
 # https://quix.io/docs/get-started/quixtour/process-threshold.html
 
