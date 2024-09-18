@@ -24,7 +24,7 @@ def initializer(current) -> dict:
     return current
     
 window = (
-    sdf.tumbling_window(duration_ms=10000)
+    sdf.hopping_window(duration_ms=10000, step_ms=5000)
     .reduce(reducer=reducer, initializer=initializer)
     .final()
 )
