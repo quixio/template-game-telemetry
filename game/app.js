@@ -6,6 +6,8 @@
 //   }
   
 
+  
+
 const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "white"];
 const animals = ["cat", "dog", "elephant", "tiger", "lion", "bear", "wolf", "fox", "cow", "duck"];
 const verbs = ["running", "jumping", "flying", "swimming", "dancing", "singing", "reading", "writing", "playing", "sleeping"];
