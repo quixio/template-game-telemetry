@@ -9,7 +9,7 @@ variables:
   - name: redis_host
     inputType: FreeText
     description: Host address for the Redis instance
-    defaultValue: ''
+    defaultValue: redis
     required: true
   - name: redis_port
     inputType: FreeText
