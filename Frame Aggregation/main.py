@@ -31,6 +31,13 @@ window = (
     .final()
 )
 
+def p(row):
+    print("------")
+    print(row)
+    print("------")
+
+sdf.apply(p)
+
 # sdf.print()
 # sdf.to_topic(output_topic)
 
