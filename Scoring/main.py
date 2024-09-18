@@ -46,13 +46,13 @@ def calc_score(data: dict, state: State):
     data['score'] = score
 
 sdf = sdf.update(calc_score, stateful=True)
-sdf = sdf.update(lambda row: print(row))
 
 def predict_bot(rows):
     data = rows["score"]
     return data
 
 sdf["data"] = sdf.apply(predict_bot)
+sdf = sdf.update(lambda row: print(row))
 
 # sdf = (
 #     sdf.filter(should_skip)
