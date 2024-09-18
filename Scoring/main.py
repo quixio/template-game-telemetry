@@ -44,7 +44,7 @@ def calc_score(data: dict, state: State):
     state.set('score', score)
     data['score'] = score
 
-sdf.update(calc_score, stateful=True)
+sdf = [sdf.update(calc_score, stateful=True)['score']]
 
 # sdf = (
 #     sdf.filter(should_skip)
