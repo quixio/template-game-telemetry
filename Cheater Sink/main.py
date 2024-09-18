@@ -23,11 +23,12 @@ app = Application(consumer_group="redis-destination")
 input_topic = app.topic(os.environ["input"])
 
 
-def send_data_to_redis(value: dict, key, c, d) -> None:
+def send_data_to_redis(value: dict, key, ts, d) -> None:
     print(value)
     print("--")
     print(key)
     print("--")
+    print(ts)
     # Convert the entire dictionary to a JSON string
     json_data = json.dumps(value)
 
