@@ -235,6 +235,15 @@ deployments:
         description: The prefix for the key to store data under
         required: false
         value: is_bot
+  - name: game
+    application: game
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables: []
 
 # This section describes the Topics of the data pipeline
 topics:
