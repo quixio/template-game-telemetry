@@ -22,7 +22,6 @@ app = Flask(__name__)
 # Connect to Redis
 client = redis.Redis(host='redis', port=6379, decode_responses=True)
 
-
 @app.route('/')
 def index():
     # Get all keys from Redis
