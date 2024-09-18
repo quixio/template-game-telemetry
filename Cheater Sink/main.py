@@ -29,19 +29,19 @@ def send_data_to_redis(value: dict) -> None:
     # Convert the entire dictionary to a JSON string
     json_data = json.dumps(value)
 
-    # Use a Redis key for storing the JSON data. This key can be a combination of
-    # some unique identifier in your value dict, like a timestamp or a specific tag.
-    # For this example, let's assume you have a unique 'id' in your value dict.
-    key = f"{redis_key_prefix}:{value['key']}"
+    # # Use a Redis key for storing the JSON data. This key can be a combination of
+    # # some unique identifier in your value dict, like a timestamp or a specific tag.
+    # # For this example, let's assume you have a unique 'id' in your value dict.
+    # key = f"{redis_key_prefix}:{value['key']}"
 
-    # Store the JSON string in Redis
-    r.set(key, json_data)
+    # # Store the JSON string in Redis
+    # r.set(key, json_data)
 
-    print(f"Data stored in Redis under key: {key}")
+    # print(f"Data stored in Redis under key: {key}")
 
 
 sdf = app.dataframe(input_topic)
-sdf = sdf.update(send_data_to_redis)
+sdf = sdf.update(send_data_to_redis, metadata=True)
 
 if __name__ == "__main__":
     print("Starting application")
