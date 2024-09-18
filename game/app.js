@@ -1,10 +1,26 @@
-function generateGUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
+// function generateGUID() {
+//     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+//       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+//       return v.toString(16);
+//     });
+//   }
   
+
+    const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "white"];
+    const animals = ["cat", "dog", "elephant", "tiger", "lion", "bear", "wolf", "fox", "cow", "duck"];
+    const verbs = ["running", "jumping", "flying", "swimming", "dancing", "singing", "reading", "writing", "playing", "sleeping"];
+
+    function getRandomElement(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generateGUID() {
+        const color = getRandomElement(colors);
+        const animal = getRandomElement(animals);
+        const verb = getRandomElement(verbs);
+        return `${color}-${animal}-${verb}`;
+    }
+
   const session_id = generateGUID();
   
   var canvas = document.getElementById('game');
