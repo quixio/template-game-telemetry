@@ -29,7 +29,8 @@ sdf = sdf.update(calc_score, stateful=True)
 def score_json(rows):
     data = {
         'score': rows['score'],
-        'length': rows['snakeLength']
+        'length': rows['snakeLength'],
+        'game_id': rows['session_id']
     }
     return data
 
