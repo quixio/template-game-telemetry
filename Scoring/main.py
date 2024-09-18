@@ -19,7 +19,7 @@ def can_process(data):
 
 def initializer(value: dict) -> dict:
     return {
-        'id': value['session_id'],
+        #'id': value['session_id'],
         'score': 0
     }
 
@@ -32,7 +32,7 @@ def reducer(aggregated: dict, value: dict) -> dict:
         score += 1
     
     return {
-        'session_id': value['session_id'],
+        #'session_id': value['session_id'],
         'score': score
     }
 
@@ -43,7 +43,7 @@ sdf = (
     #sdf.filter(can_process)
 
     # Define a tumbling window of 10 minutes
-    sdf.tumbling_window(timedelta(seconds=1))
+    sdf.tumbling_window(timedelta(seconds=10))
 
     # Create a "reduce" aggregation with "reducer" and "initializer" functions
     .reduce(reducer=reducer, initializer=initializer)
