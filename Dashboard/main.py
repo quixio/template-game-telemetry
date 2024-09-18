@@ -14,7 +14,12 @@ def index():
     
     # Separate game scores and is_bot flags
     game_scores = {key: json.loads(client.get(key)) for key in keys if key.startswith('game_score')}
-    is_bot_flags = {key.split(':')[1]: int(client.get(key)) for key in keys if key.startswith('is_bot')}
+    is_bot_flags = {}
+    for key in keys:
+        if key.startswith('is_bot'):
+            session_id = key.split(':')[1]
+            value = json.loads(client.get(key))
+            is_bot_flags[session_id] = value.get('is_bot', 0)
     
     return render_template_string('''
         <!DOCTYPE html>
