@@ -46,6 +46,7 @@ def calc_score(data: dict, state: State):
     data['score'] = score
 
 sdf = sdf.update(calc_score, stateful=True)
+sdf = sdf.update(lambda row: print(row))
 
 def predict_bot(rows):
     data = pd.DataFrame(rows["value"])
@@ -68,7 +69,6 @@ sdf["data"] = sdf.apply(predict_bot)
 # sdf = [sdf["value"]]
 
 # sdf.print()
-sdf = sdf.update(lambda row: print(row))
 
 # sdf.to_topic(output_topic)
 
