@@ -41,7 +41,8 @@ def index():
             <title>Redis Values</title>
             <style>
                 .cheater {
-                    background-color: red;
+                    background-color: #ff7b7b;
+                    width: fit-content;
                 }
             </style>
         </head>
