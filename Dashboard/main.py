@@ -26,7 +26,7 @@ client = redis.Redis(host='redis', port=6379, decode_responses=True)
 def index():
     # Get all keys from Redis
     keys = client.keys('*')
-    values = {key: client.get(key) for key in keys}
+    values = {key: json.loads(client.get(key)) for key in keys}
     return render_template_string('''
         <!DOCTYPE html>
         <html lang="en">
@@ -39,7 +39,7 @@ def index():
             <h1>Redis Values</h1>
             <ul>
                 {% for key, value in values.items() %}
-                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                    <li><strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }}</li>
                 {% endfor %}
             </ul>
         </body>
