@@ -29,6 +29,7 @@ def send_data_to_redis(value: dict, key, ts, d) -> None:
     print(key)
     print("--")
     print(ts)
+    print(d)
     # Convert the entire dictionary to a JSON string
     json_data = json.dumps(value)
 
