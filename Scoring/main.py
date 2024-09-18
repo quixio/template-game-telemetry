@@ -35,10 +35,10 @@ def reducer(aggregated: dict, value: dict) -> dict:
 sdf = (
 
     # filter to only process data relating to the players score
-    sdf.filter(can_process)
+    #sdf.filter(can_process)
 
     # Define a tumbling window of 10 minutes
-    .tumbling_window(timedelta(minutes=10))
+    sdf.tumbling_window(timedelta(minutes=10))
 
     # Create a "reduce" aggregation with "reducer" and "initializer" functions
     .reduce(reducer=reducer, initializer=initializer)
