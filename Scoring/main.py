@@ -18,7 +18,7 @@ def should_skip(data):
 sdf = (
     sdf.filter(should_skip)
     # Extract "temperature" value from the message
-    .apply(1)
+    .apply(lambda value: 1)
     # You can also pass duration_ms as an integer of milliseconds
     .tumbling_window(duration_ms=5000)
     # Specify the "sum" aggregate function
