@@ -23,7 +23,6 @@ function generateGUID() {
 
   const session_id = generateGUID();
   document.getElementById('guid-display').textContent = session_id;
-
   
   var canvas = document.getElementById('game');
   var context = canvas.getContext('2d');
