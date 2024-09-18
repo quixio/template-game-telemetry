@@ -37,8 +37,8 @@ def index():
             <h1>Redis Values</h1>
             <ul>
                 {% for key, value in game_scores.items() %}
-                    <li>
-                        <strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }}
+                    <li class="{{ 'cheater' if get_is_bot_value(value.game_id) == 1 else '' }}">
+                        <strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>is_bot:</strong> {{ get_is_bot_value(value.game_id) }}
                     </li>
                 {% endfor %}
             </ul>
