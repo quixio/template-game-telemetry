@@ -25,6 +25,7 @@ def index():
 
     # Add is_bot flag to game_scores
     for key, value in game_scores.items():
+        print(key)
         guid = value['game_id']
         is_bot_key = f"b'{guid}'"
         value['is_bot'] = is_bot_flags.get(is_bot_key, 0)
