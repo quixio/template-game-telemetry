@@ -4,6 +4,10 @@ import json
 # Connect to Redis
 client = redis.Redis(host='redis', port=6379, decode_responses=True)
 
+
+client.flushdb()
+
+
 # Get all keys from Redis
 keys = client.keys('*')
 
