@@ -121,8 +121,6 @@ deployments:
       memory: 5000
       replicas: 1
     variables: []
-    ports:
-    - port: 6379
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -133,3 +131,4 @@ topics:
       retentionInBytes: 1048576000
   - name: bot-detection
   - name: transformed
+  - name: score
