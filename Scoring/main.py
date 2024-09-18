@@ -14,7 +14,7 @@ output_topic = app.topic(os.environ["output"])
 sdf = app.dataframe(input_topic)
 
 def can_process(data):
-    return data.get('type') == "apple-eaten"
+    return data.get('type')
 
 
 def initializer(value: dict) -> dict:
