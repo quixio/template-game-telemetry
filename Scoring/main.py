@@ -44,23 +44,7 @@ def calc_score(data: dict, state: State):
     state.set('score', score)
     data['score'] = score
 
-sdf = (
-
-    sdf.update(calc_score, stateful=True)
-
-#     # filter to only process data relating to the players score
-#     #sdf.filter(can_process)
-
-#     # Define a tumbling window of 10 minutes
-#     sdf.tumbling_window(timedelta(seconds=10))
-
-#     # Create a "reduce" aggregation with "reducer" and "initializer" functions
-#     .reduce(reducer=reducer, initializer=initializer)
-
-#     # Emit results only for closed windows
-#     .final()
-)
-
+sdf.update(calc_score, stateful=True)
 
 # sdf = (
 #     sdf.filter(should_skip)
