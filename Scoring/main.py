@@ -1,6 +1,7 @@
 import os
 from quixstreams import Application, State
 from datetime import timedelta
+import pandas as pd
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
@@ -45,6 +46,25 @@ def calc_score(data: dict, state: State):
     data['score'] = score
 
 sdf = sdf.update(calc_score, stateful=True)
+
+def predict_bot(rows):
+    data = pd.DataFrame(rows["value"])
+    features_df = feature_calc(data)
+    features_array = features_df.values
+
+    # Ensure features_array is a 2D array
+    if features_array.ndim == 1:
+        features_array = features_array.reshape(1, -1)
+
+    # Handle NaN values
+    if np.isnan(features_array).any():
+        features_array = np.nan_to_num(features_array)
+
+    # Make prediction
+    prediction = loaded_model.predict(features_array)
+    return int(prediction[0])  # Convert prediction to int
+
+sdf["is_bot"] = sdf.apply(predict_bot)
 
 # sdf = (
 #     sdf.filter(should_skip)
