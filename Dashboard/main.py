@@ -65,7 +65,7 @@ def index():
         <body>
             <h1>Admin Dashboard</h1>
             <div>
-                <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh <span id="countdown">5</span></button>
+                <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh (<span id="countdown">5</span>)</button>
             </div>
             <div class="results">
                 <h2>Top Score (non cheaters only)</h2>
@@ -110,7 +110,7 @@ def index():
                 toggleButton.addEventListener('click', function() {
                     autoRefresh = !autoRefresh;
                     if (autoRefresh) {
-                        toggleButton.textContent = 'Disable Auto-Refresh';
+                        toggleButton.textContent = 'Disable Auto-Refresh (5)';
                         countdown = 5;
                     } else {
                         toggleButton.textContent = 'Enable Auto-Refresh';
