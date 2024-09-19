@@ -71,7 +71,7 @@ class webSocketSource:
             message = self._consumer.poll(1)
             # print(message)
             if message is not None:
-                print(message.value())
+                # print(message.value())
                 value = json.loads(bytes.decode(message.value()))
                 key = bytes.decode(message.key())
                 # print(key)
