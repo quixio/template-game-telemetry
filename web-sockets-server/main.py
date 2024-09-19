@@ -77,6 +77,7 @@ class webSocketSource:
                 # print(key)
                 # print(value)
                 if key in self.websocket_connections:
+                    print(f"Key: {key} - ---")
                     for client in self.websocket_connections[key]:
                         try:
                             print(f"Sending: {value}")
