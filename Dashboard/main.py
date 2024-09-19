@@ -31,9 +31,15 @@ def index():
         value['is_bot'] = is_bot_flags.get(is_bot_key, 0)
         value['date_time'] = datetime.fromtimestamp(value['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
 
-
     # Sort game_scores by timestamp in descending order
     game_scores = dict(sorted(game_scores.items(), key=lambda item: item[1]['timestamp'], reverse=True))
+
+    # Find the top-scoring non-cheater
+    top_non_cheater = None
+    for key, value in game_scores.items():
+        if value['is_bot'] == 0:
+            if top_non_cheater is None or value['score'] > top_non_cheater['score']:
+                top_non_cheater = value
 
     return render_template_string('''
         <!DOCTYPE html>
@@ -51,6 +57,18 @@ def index():
         </head>
         <body>
             <h1>Admin Dashboard</h1>
+            <div>
+                <h2>Top Score (non cheaters only)</h2>
+                {% if top_non_cheater %}
+                    <p><strong>Game ID:</strong> {{ top_non_cheater.game_id }}</p>
+                    <p><strong>Score:</strong> {{ top_non_cheater.score }}</p>
+                    <p><strong>Date and Time:</strong> {{ top_non_cheater.date_time }}</p>
+                {% else %}
+                    <p>No non-cheater scores available.</p>
+                {% endif %}
+            </div>
+
+            <h2>All Games</h2>
             <ul>
                 {% for key, value in game_scores.items() %}
                     <li class="{{ 'cheater' if value.is_bot == 1 else '' }}">
@@ -92,7 +110,7 @@ def index():
             </script>
         </body>
         </html>
-    ''', game_scores=game_scores)
+    ''', game_scores=game_scores, top_non_cheater=top_non_cheater)
 
 
 if __name__ == '__main__':
