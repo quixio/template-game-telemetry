@@ -1,5 +1,6 @@
 import os
 from quixstreams import Application, State
+import time
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
@@ -30,7 +31,8 @@ def score_json(rows):
     data = {
         'score': rows['score'],
         'length': rows['snakeLength'],
-        'game_id': rows['session_id']
+        'game_id': rows['session_id'],
+        'timestamp': int(time.time())
     }
     return data
 
