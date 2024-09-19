@@ -251,7 +251,7 @@ deployments:
         inputType: InputTopic
         description: Output topic
         required: true
-        value: bot-detection
+        value: score
 
 # This section describes the Topics of the data pipeline
 topics:
