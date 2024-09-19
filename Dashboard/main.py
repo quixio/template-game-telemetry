@@ -30,7 +30,7 @@ def index():
         value['is_bot'] = is_bot_flags.get(is_bot_key, 0)
 
     # Sort game_scores by timestamp in descending order
-    sorted_game_scores = dict(sorted(game_scores.items(), key=lambda item: item[1]['timestamp'], reverse=True))
+    game_scores = dict(sorted(game_scores.items(), key=lambda item: item[1]['timestamp'], reverse=True))
 
     return render_template_string('''
         <!DOCTYPE html>
@@ -49,7 +49,7 @@ def index():
         <body>
             <h1>Admin Dashboard</h1>
             <ul>
-                {% for key, value in sorted_game_scores.items() %}
+                {% for key, value in game_scores.items() %}
                     <li class="{{ 'cheater' if value.is_bot == 1 else '' }}">
                         <strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>is_bot:</strong> {{ value.is_bot }}
                     </li>
