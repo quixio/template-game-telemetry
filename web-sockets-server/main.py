@@ -76,6 +76,9 @@ class webSocketSource:
                 key = bytes.decode(message.key())
                 # print(key)
                 # print(value)
+                print(key)
+                print(key in self.websocket_connections)
+
                 if key in self.websocket_connections:
                     print(f"Key: {key} - ---")
                     for client in self.websocket_connections[key]:
