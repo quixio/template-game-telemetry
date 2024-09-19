@@ -98,7 +98,9 @@ class webSocketSource:
             self.websocket_connections[path] = []
 
         self.websocket_connections[path].append(websocket)
+        print(self.websocket_connections)
 
+        
         try:
             print("Keep the connection open and wait for messages if needed")
             await websocket.wait_closed()
