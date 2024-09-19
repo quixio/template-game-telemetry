@@ -12,7 +12,7 @@ load_dotenv()
 def handle_consumer_error(e):
     print(e)
 
-app = Application.Quix("web-sockets-server-v100", auto_offset_reset="latest", loglevel='DEBUG'
+app = Application.Quix("web-sockets-server-v100", auto_offset_reset="latest", loglevel='DEBUG',
 on_consumer_error=handle_consumer_error)
 consumer = app.get_consumer()
 topic = app.topic(name=os.environ["input"])
