@@ -5,7 +5,7 @@ import json
 client = redis.Redis(host='redis', port=6379, decode_responses=True)
 
 
-# client.flushdb()
+client.flushdb()
 
 
 # Get all keys from Redis
