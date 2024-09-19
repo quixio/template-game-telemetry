@@ -14,7 +14,6 @@ def handle_consumer_error(e):
 
 app = Application.Quix("web-sockets-server-v10000000", auto_offset_reset="earliest", loglevel='DEBUG',
 on_consumer_error=handle_consumer_error)
-
 topic = app.topic(name=os.environ["input"])
 consumer = app.get_consumer()
 
