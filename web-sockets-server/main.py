@@ -13,22 +13,22 @@ load_dotenv()
 
 
 
-# from quixstreams import Application
-# # Initialize the application
-# app = Application(consumer_group='my-consumer-group')
-# # Define the input topic
-# input_topic = app.topic("score")
-# # Create a consumer
-# with app.get_consumer() as consumer:
-#     # Subscribe to the topic
-#     consumer.subscribe([input_topic.name])
-#     while True:
-#         msg = consumer.poll(timeout=1.0)
-#         print(msg)
-#         if msg is not None:
-#             print(f'Received a message from topic {msg.topic()}: {msg.value()}')
-#             # Optionally commit the offset
-#             consumer.store_offsets(msg)
+from quixstreams import Application
+# Initialize the application
+app = Application(consumer_group='my-consumer-group')
+# Define the input topic
+input_topic = app.topic("score")
+# Create a consumer
+with app.get_consumer() as consumer:
+    # Subscribe to the topic
+    consumer.subscribe([input_topic.name])
+    while True:
+        msg = consumer.poll(timeout=1.0)
+        print(msg)
+        if msg is not None:
+            print(f'Received a message from topic {msg.topic()}: {msg.value()}')
+            # Optionally commit the offset
+            consumer.store_offsets(msg)
 
 
 
