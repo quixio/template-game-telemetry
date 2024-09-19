@@ -69,7 +69,7 @@ class webSocketSource:
     async def consume_messages(self):
         while True:
             message = self._consumer.poll(1)
-            print(message)
+            # print(message)
             if message is not None:
                 print(message.value())
                 value = json.loads(bytes.decode(message.value()))
