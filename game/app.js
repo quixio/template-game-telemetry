@@ -1,12 +1,10 @@
-// function generateGUID() {
-//     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-//       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-//       return v.toString(16);
-//     });
-//   }
-  
-
-  
+function generateGUID() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+   
 
 const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "white"];
 const animals = ["cat", "dog", "elephant", "tiger", "lion", "bear", "wolf", "fox", "cow", "duck"];
@@ -16,14 +14,22 @@ function getRandomElement(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 
-function generateGUID() {
+function generateReadableGUID() {
     const color = getRandomElement(colors);
     const animal = getRandomElement(animals);
     const verb = getRandomElement(verbs);
     return `${color}-${animal}-${verb}`;
 }
 
-  const session_id = generateGUID();
+function generateCombinedGUID() {
+  const guid = generateGUID();
+  const readableGUID = generateReadableGUID();
+  return `${readableGUID}-${guid}`.toUpperCase();
+}
+
+
+  const session_id = generateCombinedGUID();
+  // const session_id = "steve"
   document.getElementById('game-id').textContent = session_id;
   
   var canvas = document.getElementById('game');
@@ -61,7 +67,7 @@ function generateGUID() {
 
         // Form the WebSocket URL
         const wsURL = `${wsProtocol}//${wsHost}${url.pathname}`;
-        
+        return 'https://gametelemetry-quix-tomassnakegame-templatedev.deployments.quix.io/'
         return wsURL;
     } catch (e) {
         console.error('Invalid URL:', e);
