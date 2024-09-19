@@ -14,12 +14,8 @@ class webSocketSource:
         app = Application.Quix("web-sockets-server-v22", auto_offset_reset="latest")
         self._topic = app.topic(name=os.environ["input"])
         
-        def assigned(foo, bar):
-            print(foo)
-            print(bar)
-
         self._consumer = app.get_consumer()
-        self._consumer.subscribe([self._topic.name], assigned)
+        self._consumer.subscribe([self._topic.name])
         # self._consumer.subscribe(["score"])
 
         # Holds all client connections partitioned by page.
