@@ -15,7 +15,7 @@ load_dotenv()
 
 from quixstreams import Application
 # Initialize the application
-app = Application(consumer_group='my-consumer-group')
+app = Application(consumer_group='my-consumer-group', loglevel='DEBUG')
 # Define the input topic
 input_topic = app.topic("score")
 # Create a consumer
