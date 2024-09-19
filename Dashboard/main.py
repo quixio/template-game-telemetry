@@ -1,6 +1,7 @@
 from flask import Flask, render_template_string
 import redis
 import json
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -28,6 +29,8 @@ def index():
         guid = value['game_id']
         is_bot_key = f"b'{guid}'"
         value['is_bot'] = is_bot_flags.get(is_bot_key, 0)
+        value['date_time'] = datetime.fromtimestamp(value['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
+
 
     # Sort game_scores by timestamp in descending order
     game_scores = dict(sorted(game_scores.items(), key=lambda item: item[1]['timestamp'], reverse=True))
@@ -51,7 +54,7 @@ def index():
             <ul>
                 {% for key, value in game_scores.items() %}
                     <li class="{{ 'cheater' if value.is_bot == 1 else '' }}">
-                        <strong>Game ID:</strong> {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>is_bot:</strong> {{ value.is_bot }}
+                        <strong>{{ value.date_time }}</strong>: {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>Cheating:</strong> {{ value.is_bot==1 }}
                     </li>
                 {% endfor %}
             </ul>
