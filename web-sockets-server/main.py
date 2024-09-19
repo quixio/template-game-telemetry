@@ -91,7 +91,9 @@ class webSocketSource:
                 
             
     async def handle_websocket(self, websocket, path):
+        print("========================================")
         print(f"Client connected to socket. Path={path}")
+        print("========================================")
         
         if path not in self.websocket_connections:
             print(f"Adding {path} empty connection list")
