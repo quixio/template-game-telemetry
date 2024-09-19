@@ -9,7 +9,7 @@ import json
 load_dotenv()
 
 
-app = Application.Quix("web-sockets-server-v100", auto_offset_reset="latest", loglevel= 'DEBUG')
+app = Application.Quix("web-sockets-server-v100", auto_offset_reset="latest", loglevel='DEBUG')
 consumer = app.get_consumer()
 topic = app.topic(name=os.environ["input"])
 consumer.subscribe([topic.name])
