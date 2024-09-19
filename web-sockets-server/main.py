@@ -9,20 +9,44 @@ import json
 load_dotenv()
 
 
-def handle_consumer_error(e):
-    print(e)
 
-app = Application.Quix("web-sockets-server-v10000000", auto_offset_reset="earliest", loglevel='DEBUG',
-on_consumer_error=handle_consumer_error)
-topic = app.topic(name=os.environ["input"])
-consumer = app.get_consumer()
 
-print(topic.name)
-consumer.subscribe([topic.name])
 
-while True:
-    message = consumer.poll(1)
-    print(message)
+
+from quixstreams import Application
+# Initialize the application
+app = Application(consumer_group='my-consumer-group')
+# Define the input topic
+input_topic = app.topic("score")
+# Create a consumer
+with app.get_consumer() as consumer:
+    # Subscribe to the topic
+    consumer.subscribe([input_topic.name])
+    while True:
+        msg = consumer.poll(timeout=1.0)
+        if msg is not None:
+            print(f'Received a message from topic {msg.topic()}: {msg.value()}')
+            # Optionally commit the offset
+            consumer.store_offsets(msg)
+
+
+
+
+
+# def handle_consumer_error(e):
+#     print(e)
+
+# app = Application.Quix("web-sockets-server-v10000000", auto_offset_reset="earliest", loglevel='DEBUG',
+# on_consumer_error=handle_consumer_error)
+# topic = app.topic(name=os.environ["input"])
+# consumer = app.get_consumer()
+
+# print(topic.name)
+# consumer.subscribe([topic.name])
+
+# while True:
+#     message = consumer.poll(1)
+#     print(message)
 
 
 # class webSocketSource:
