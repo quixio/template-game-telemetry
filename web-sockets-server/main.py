@@ -26,11 +26,12 @@ class webSocketSource:
     async def consume_messages(self):
         while True:
             message = self._consumer.poll(1)
-            
+            print(message)
             if message is not None:
                 value = json.loads(bytes.decode(message.value()))
                 key = bytes.decode(message.key())
-                
+                print(key)
+                print(value)
                 if key in self.websocket_connections:
                     for client in self.websocket_connections[key]:
                         try:
