@@ -53,11 +53,20 @@ def index():
                     background-color: #ff7b7b;
                     width: fit-content;
                 }
+                .results {
+                    margin: 9px;
+                    border: 1px solid;
+                    padding: 12px;
+                }
             </style>
         </head>
         <body>
             <h1>Admin Dashboard</h1>
             <div>
+                <p>Next refresh in <span id="countdown">5</span> seconds</p>
+                <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh</button>
+            </div>
+            <div class="results">
                 <h2>Top Score (non cheaters only)</h2>
                 {% if top_non_cheater %}
                     <p><strong>Game ID:</strong> {{ top_non_cheater.game_id }}</p>
@@ -68,18 +77,17 @@ def index():
                 {% endif %}
             </div>
 
-            <h2>All Games</h2>
-            <ul>
-                {% for key, value in game_scores.items() %}
-                    <li class="{{ 'cheater' if value.is_bot == 1 else '' }}">
-                        <strong>{{ value.date_time }}</strong>: {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>Cheating:</strong> {{ value.is_bot==1 }}
-                    </li>
-                {% endfor %}
-            </ul>
-            <div>
-                <p>Next refresh in <span id="countdown">5</span> seconds</p>
-                <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh</button>
+            <div class="results">
+                <h2>All Games</h2>
+                <ul>
+                    {% for key, value in game_scores.items() %}
+                        <li class="{{ 'cheater' if value.is_bot == 1 else '' }}">
+                            <strong>{{ value.date_time }}</strong>: {{ value.game_id }} - <strong>Score:</strong> {{ value.score }} - <strong>Cheating:</strong> {{ value.is_bot==1 }}
+                        </li>
+                    {% endfor %}
+                </ul>
             </div>
+            
             <script>
                 let countdown = 5;
                 let autoRefresh = true;
