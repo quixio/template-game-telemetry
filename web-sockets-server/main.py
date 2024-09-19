@@ -29,22 +29,23 @@ class webSocketSource:
             message = self._consumer.poll(1)
             print(message)
             if message is not None:
-                value = json.loads(bytes.decode(message.value()))
-                key = bytes.decode(message.key())
-                print(key)
-                print(value)
-                if key in self.websocket_connections:
-                    for client in self.websocket_connections[key]:
-                        try:
-                            print(f"Sending: {value}")
-                            await client.send(json.dumps(value))
-                        except:
-                            print("Connection already closed.")
+                print(message.value())
+            #     value = json.loads(bytes.decode(message.value()))
+            #     key = bytes.decode(message.key())
+            #     print(key)
+            #     print(value)
+            #     if key in self.websocket_connections:
+            #         for client in self.websocket_connections[key]:
+            #             try:
+            #                 print(f"Sending: {value}")
+            #                 await client.send(json.dumps(value))
+            #             except:
+            #                 print("Connection already closed.")
                     
-                    print(value)
-                    print(f"Send to {key} {str(len(self.websocket_connections[key]))} times.")
-            else:
-                await asyncio.sleep(1)
+            #         print(value)
+            #         print(f"Send to {key} {str(len(self.websocket_connections[key]))} times.")
+            # else:
+            #     await asyncio.sleep(1)
                 
             
     async def handle_websocket(self, websocket, path):
