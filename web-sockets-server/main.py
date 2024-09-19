@@ -74,8 +74,8 @@ class webSocketSource:
                 print(message.value())
                 value = json.loads(bytes.decode(message.value()))
                 key = bytes.decode(message.key())
-                print(key)
-                print(value)
+                # print(key)
+                # print(value)
                 if key in self.websocket_connections:
                     for client in self.websocket_connections[key]:
                         try:
