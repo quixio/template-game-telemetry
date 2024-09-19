@@ -76,11 +76,11 @@ class webSocketSource:
                 key = bytes.decode(message.key())
                 # print(key)
                 # print(value)
-                print(key)
-                print(key in self.websocket_connections)
+                # print(key)
+                # print(key in self.websocket_connections)
 
                 if key in self.websocket_connections:
-                    print(f"Key: {key} - ---")
+                    # print(f"Key: {key} - ---")
                     for client in self.websocket_connections[key]:
                         try:
                             print(f"Sending: {value}")
@@ -99,18 +99,17 @@ class webSocketSource:
         print(f"Client connected to socket. Path={path}")
         print("========================================")
         
-
         def strip_leading_slash(s):
             return s.lstrip('/')
 
         path = strip_leading_slash(path)
 
         if path not in self.websocket_connections:
-            print(f"Adding {path} empty connection list")
+            # print(f"Adding {path} empty connection list")
             self.websocket_connections[path] = []
 
         self.websocket_connections[path].append(websocket)
-        print(self.websocket_connections)
+        # print(self.websocket_connections)
 
         
         try:
