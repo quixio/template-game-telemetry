@@ -57,6 +57,8 @@ def index():
                     margin: 9px;
                     border: 1px solid;
                     padding: 12px;
+                    width: fit-content;
+                    min-width: 533px;
                 }
             </style>
         </head>
