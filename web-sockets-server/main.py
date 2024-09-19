@@ -15,8 +15,8 @@ class webSocketSource:
         self._topic = app.topic(name=os.environ["input"])
         
         self._consumer = app.get_consumer()
-        # self._consumer.subscribe([self._topic.name])
-        self._consumer.subscribe(["score"])
+        self._consumer.subscribe([self._topic.name])
+        # self._consumer.subscribe(["score"])
 
         # Holds all client connections partitioned by page.
         self.websocket_connections = {}
