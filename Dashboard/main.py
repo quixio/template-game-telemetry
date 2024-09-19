@@ -60,11 +60,15 @@ def index():
                     width: fit-content;
                     min-width: 533px;
                 }
+                .pad {
+                    margin: 9px;
+                    padding: 12px;
+                }
             </style>
         </head>
         <body>
             <h1>Admin Dashboard</h1>
-            <div>
+            <div class="pad">
                 <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh (<span id="countdown">5</span>)</button>
             </div>
             <div class="results">
