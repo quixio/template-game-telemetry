@@ -99,6 +99,12 @@ class webSocketSource:
         print(f"Client connected to socket. Path={path}")
         print("========================================")
         
+
+        def strip_leading_slash(s):
+            return s.lstrip('/')
+
+        path = strip_leading_slash(path)
+
         if path not in self.websocket_connections:
             print(f"Adding {path} empty connection list")
             self.websocket_connections[path] = []
