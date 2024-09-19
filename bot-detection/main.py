@@ -245,6 +245,11 @@ def predict_bot(rows):
 
 sdf["is_bot"] = sdf.apply(predict_bot)
 
+def get_session_id(data, session, a, b):
+    ...
+
+sdf["session_id"] = sdf.apply(get_session_id, xxx)
+
 sdf.drop("value")
 
 sdf.print()
