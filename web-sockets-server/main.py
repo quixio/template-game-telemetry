@@ -24,6 +24,7 @@ with app.get_consumer() as consumer:
     consumer.subscribe([input_topic.name])
     while True:
         msg = consumer.poll(timeout=1.0)
+        print(msg)
         if msg is not None:
             print(f'Received a message from topic {msg.topic()}: {msg.value()}')
             # Optionally commit the offset
