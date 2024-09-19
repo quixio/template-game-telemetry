@@ -4,7 +4,7 @@ variables:
   - name: input
     inputType: InputTopic
     description: Output topic
-    defaultValue: score
+    defaultValue: clickstream
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
