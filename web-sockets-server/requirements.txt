@@ -1,4 +1,4 @@
 asyncio
-quixstreams==2.1
+quixstreams==2.2
 websockets
 python-dotenv
