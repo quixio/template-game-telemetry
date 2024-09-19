@@ -94,6 +94,7 @@ class webSocketSource:
         print(f"Client connected to socket. Path={path}")
         
         if path not in self.websocket_connections:
+            print(f"Adding {path} empty connection list")
             self.websocket_connections[path] = []
 
         self.websocket_connections[path].append(websocket)
