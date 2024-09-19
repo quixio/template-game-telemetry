@@ -4,7 +4,7 @@ variables:
   - name: input
     inputType: InputTopic
     description: Output topic
-    defaultValue: clickstream
+    defaultValue: bot-detection
     required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
