@@ -11,7 +11,7 @@ load_dotenv()
 class webSocketSource:
     
     def __init__(self) -> None:
-        app = Application.Quix("web-sockets-server-v22", auto_offset_reset="latest")
+        app = Application.Quix("web-sockets-server-v100", auto_offset_reset="latest")
         self._topic = app.topic(name=os.environ["input"])
         
         self._consumer = app.get_consumer()
