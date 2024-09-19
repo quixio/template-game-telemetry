@@ -120,12 +120,8 @@ class webSocketSource:
 async def main():
     client = webSocketSource()
     # Start consuming messages as a separate task
-    try:
-        asyncio.create_task(client.consume_messages())
-        await client.start_websocket_server()
-    except KeyboardInterrupt:
-        print("Closing consumer")
-        client._consumer.close()
+    asyncio.create_task(client.consume_messages())
+    await client.start_websocket_server()
 
 # Run the application with exception handling
 try:
