@@ -65,8 +65,7 @@ def index():
         <body>
             <h1>Admin Dashboard</h1>
             <div>
-                <p>Next refresh in <span id="countdown">5</span> seconds</p>
-                <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh</button>
+                <button id="toggle-refresh" class="refresh-toggle">Disable Auto-Refresh <span id="countdown">5</span></button>
             </div>
             <div class="results">
                 <h2>Top Score (non cheaters only)</h2>
