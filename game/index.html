@@ -50,6 +50,10 @@
       user-select: none;
     }
 
+    .highlight {
+      background-color: lightgray;
+    }
+
     .control-button:active {
       background-color: lightgray;
     }
@@ -127,6 +131,32 @@
     controlDown.addEventListener('click', () => dispatchKeyEvent(40)); // Down arrow
     controlLeft.addEventListener('click', () => dispatchKeyEvent(37)); // Left arrow
     controlRight.addEventListener('click', () => dispatchKeyEvent(39)); // Right arrow
+
+
+        // Highlight the relevant button when the key is pressed on the keyboard
+        const highlightButton = (button) => {
+            button.classList.add('highlight');
+            setTimeout(() => {
+                button.classList.remove('highlight');
+            }, 100);
+        };
+
+        document.addEventListener('keydown', (event) => {
+            switch (event.keyCode) {
+                case 38: // Up arrow
+                    highlightButton(controlUp);
+                    break;
+                case 40: // Down arrow
+                    highlightButton(controlDown);
+                    break;
+                case 37: // Left arrow
+                    highlightButton(controlLeft);
+                    break;
+                case 39: // Right arrow
+                    highlightButton(controlRight);
+                    break;
+            }
+        });
 
   </script>
   <script src="app.js?v=<?= time() ?>"></script>
