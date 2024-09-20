@@ -7,7 +7,7 @@ server_url = '10.244.10.96'
 port = 80 # 6379
 client = redis.Redis(host=server_url, port=port, decode_responses=True)
 
-def clear();
+def clear():
     client.flushdb()
 
 def test_redis():
