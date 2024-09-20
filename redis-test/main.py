@@ -3,7 +3,7 @@ import json
 
 # Connect to Redis
 # client = redis.Redis(host='redis', port=6379, decode_responses=True)
-server_url = 'tcp://redis-quix-snakegamebackend-dev.deployments.quix.io'
+server_url = 'udp://redis-quix-snakegamebackend-dev.deployments.quix.io'
 port = 80 # 6379
 client = redis.Redis(host=server_url, port=port, decode_responses=True)
 
