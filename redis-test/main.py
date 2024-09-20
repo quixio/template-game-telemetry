@@ -5,12 +5,12 @@ import json
 # client = redis.Redis(host='redis', port=6379, decode_responses=True)
 server_url = '10.244.10.96'
 port = 80 # 6379
-client = redis.Redis(host=server_url, port=port, decode_responses=True)
 
 def clear():
     client.flushdb()
 
 def test_redis():
+    print("connecting")
     # Connect to Redis server
     client = redis.Redis(host=server_url, port=port, db=0)
 
@@ -27,6 +27,9 @@ def test_redis():
     client.delete('test_key')
 
 def get_all_keys():
+
+    client = redis.Redis(host=server_url, port=port, decode_responses=True)
+
     # Get all keys from Redis
     keys = client.keys('*')
 
