@@ -15,6 +15,7 @@ def test_redis():
     client = redis.Redis(host=server_url, port=port, db=0)
     print("Connected")
 
+    print("Testing")
     # Test setting a key
     client.set('test_key', 'test_value')
 
@@ -26,6 +27,8 @@ def test_redis():
 
     # Clean up
     client.delete('test_key')
+
+    print("Done")
 
 def get_all_keys():
 
