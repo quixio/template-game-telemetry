@@ -12,7 +12,7 @@ def clear():
 
 def test_redis():
     # Connect to Redis server
-    client = redis.Redis(host='localhost', port=6379, db=0)
+    client = redis.Redis(host=server_url, port=port, db=0)
 
     # Test setting a key
     client.set('test_key', 'test_value')
