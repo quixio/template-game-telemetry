@@ -13,6 +13,7 @@ def test_redis():
     print("connecting")
     # Connect to Redis server
     client = redis.Redis(host=server_url, port=port, db=0)
+    print("Connected")
 
     # Test setting a key
     client.set('test_key', 'test_value')
