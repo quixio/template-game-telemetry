@@ -196,7 +196,24 @@ deployments:
       enabled: true
       urlPrefix: dashboard
     variables: []
-  - name: Cheater Sink
+  - name: Web Socket Server
+    application: web-sockets-server
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: wss
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Output topic
+        required: true
+        value: bot-detection
+  - name: Cheater Redis Sink
     application: Cheater Sink
     version: latest
     deploymentType: Service
@@ -235,23 +252,6 @@ deployments:
         description: The prefix for the key to store data under
         required: false
         value: is_bot
-  - name: Web Socket Server
-    application: web-sockets-server
-    version: latest
-    deploymentType: Service
-    resources:
-      cpu: 200
-      memory: 500
-      replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: wss
-    variables:
-      - name: input
-        inputType: InputTopic
-        description: Output topic
-        required: true
-        value: bot-detection
 
 # This section describes the Topics of the data pipeline
 topics:
