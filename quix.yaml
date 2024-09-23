@@ -30,7 +30,7 @@ deployments:
       - name: input
         inputType: InputTopic
         required: false
-        value: clickstream
+        value: transformed
       - name: s3_secret_access_key
         inputType: Secret
         required: false
