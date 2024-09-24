@@ -57,7 +57,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: s3://sneak-data/tomas-snakecheating-dev-clickstream
+        value: {{AWS_S3_URI}}
       - name: AWS_ACCESS_KEY_ID
         inputType: FreeText
         required: false
@@ -70,7 +70,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: glue.tomas-snakecheating-dev-clickstream
+        value: {{table_name}}
   - name: Bot detection
     application: bot-detection
     version: latest
