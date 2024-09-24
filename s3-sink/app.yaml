@@ -12,8 +12,9 @@ variables:
     required: false
   - name: AWS_S3_URI
     inputType: FreeText
-    defaultValue: s3://sneak-data/tomas-snakecheating-prod-clickstream-v2
-    required: false
+    description: ''
+    defaultValue: s3://sneak-data/tomas-snakecheating-dev-clickstream
+    required: true
   - name: AWS_ACCESS_KEY_ID
     inputType: FreeText
     defaultValue: AKIA5JJJFC76E24MEO5M
