@@ -25,8 +25,9 @@ variables:
     required: false
   - name: table_name
     inputType: FreeText
-    defaultValue: glue.tomas-snakecheating-dev-clickstream-v2
-    required: false
+    description: ''
+    defaultValue: glue.tomas-snakecheating-dev-clickstream
+    required: true
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
