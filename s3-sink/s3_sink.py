@@ -1,35 +1,26 @@
-from datetime import datetime
-import json
 import logging
-from logging import Logger
-import time
-from exceptions import InvalidS3FormatterError
-import boto3
-from botocore.config import Config
-import json
 from quixstreams.sinks import SinkBatch, BatchingSink
-from formats import S3SinkBatchFormat, JSONFormat, BytesFormat, ParquetFormat
+from formats import ParquetFormat
 
 import logging
-from io import BytesIO
-from pathlib import PurePath
-from typing import Union, Any, Literal, Optional, Dict
-
+from typing import Literal, Optional
 
 logger = logging.getLogger("quixstreams")
 
-# TODO: Figure out the best way to create Quix vs non-Quix app
-# TODO: Skipping for now:
-#  - What to do with keys and timestamps?
-# TODO: Timestamp extraction - will be needed for Influx sink 100%.
+import pyarrow as pa
+import pyarrow.parquet as pq
+
+from pyiceberg.transforms import DayTransform, IdentityTransform
+from pyiceberg.catalog.glue import GlueCatalog
+from pyiceberg.partitioning import PartitionSpec, PartitionField
+from pyiceberg.schema import Schema, NestedField
+from pyiceberg.types import (
+    StringType,
+    TimestampType,
+)
 
 
-S3FormatSpec = Literal["bytes", "json"]
-_S3_SINK_FORMATTERS: Dict[S3FormatSpec, S3SinkBatchFormat] = {
-    "json": JSONFormat(),
-    "bytes": BytesFormat(),
-    "parquet": ParquetFormat(),
-}
+DataCatalogSpec = Literal["aws_glue"]
 
 LogLevel = Literal[
     "CRITICAL",
@@ -41,38 +32,60 @@ LogLevel = Literal[
 ]
 
 
-
 class S3Sink(BatchingSink):
     def __init__(
         self,
-         s3_bucket_name: str,
-        s3_access_key_id: str,
-        s3_secret_access_key: str,
-        format: Union[S3FormatSpec, S3SinkBatchFormat],
+        aws_s3_uri: str,
+        table_name: str,
         prefix: str = "",
         s3_region_name: Optional[str] = None,
-        s3_retry_max_attempts: int = 3,
-        s3_connect_timeout: Union[int, float] = 60,
-        s3_read_timeout: Union[int, float] = 60,
         loglevel: LogLevel = "INFO"
     ):
         super().__init__()
 
-        self._prefix = prefix
-        self._format = self._resolve_format(formatter_spec=format)
 
-        self._s3_bucket_name = s3_bucket_name
-        self._s3_client = boto3.client(
-            "s3",
-            aws_access_key_id=s3_access_key_id,
-            aws_secret_access_key=s3_secret_access_key,
-            region_name=s3_region_name,
-            config=Config(
-                read_timeout=s3_read_timeout,
-                connect_timeout=s3_connect_timeout,
-                retries={"max_attempts": s3_retry_max_attempts, "mode": "standard"},
-            ),
+        self._format = ParquetFormat()
+        self._prefix = prefix
+        
+        # Configure Iceberg Catalog
+        self.catalog = GlueCatalog(
+            name="glue_catalog",
+            region_name=s3_region_name
         )
+        
+        schema = Schema(
+            NestedField(1, "_timestamp", TimestampType(), required=False),
+            NestedField(2, "_key", StringType(), required=False)
+        )
+        
+        # Create partition fields
+        partition_fields = [
+            PartitionField(
+                source_id=2,
+                field_id=1003,
+                transform=IdentityTransform(),
+                name='_key'
+            ),
+            PartitionField(
+                source_id=1,
+                field_id=1002,
+                transform=DayTransform(),
+                name='day'
+            )
+        ]
+
+        # Create the new PartitionSpec
+        new_partition_spec = PartitionSpec(schema=schema, fields=partition_fields)
+        
+        self.table = self.catalog.create_table_if_not_exists(table_name, schema, aws_s3_uri, partition_spec=new_partition_spec)
+            
+        # Define the new partition strategy (combining year from a timestamp and a string column)
+        schema = self.table.schema()
+
+        # Replace the existing partition spec with the new one
+        self.table.update_spec(new_partition_spec)
+
+        self._logger.info("Partition strategy successfully altered.")
         
         # Configure logging.
         self._logger = logging.getLogger("AwsKinesisSink")
@@ -82,69 +95,18 @@ class S3Sink(BatchingSink):
         
     
 
-    def build_bucket_file_path(self, topic: str, item, partition:int) -> str:
-        """
-        Build a file path for the batch in the S3 bucket
-
-        :param batch: the `Batch` object to be flushed
-        :return: file path in the bucket as string
-
-        """
-        dir_path = PurePath(self._prefix) / topic
-        filename = (
-            f"{bytes.decode(item.key)}{self._format.file_extension}"
-        )
-        path = dir_path / filename
-        return path.as_posix()
-
-    def upload(self, path: str, content: dict[bytes]):
-        """
-        Upload serialized batch to S3 bucket
-        """
-
-        for file in content:
-        
-            logger.info(
-                f"Uploading batch to an S3 bucket "
-                f's3_bucket_name="{self._s3_bucket_name}" '
-                f'path="{path}'
-            )
-            self._s3_client.upload_fileobj(BytesIO(content[file]), self._s3_bucket_name, path)
-            logger.info(
-                f"Batch upload complete "
-                f's3_bucket_name="{self._s3_bucket_name}" '
-        )
-        
-
     def write(self, batch: SinkBatch):
         
-        files = {}
+        data = self._format.serialize_batch_values(batch)
         
-        for item in batch:
-            path = self.build_bucket_file_path(topic=batch.topic, item=item, partition=batch.partition)
-            if path not in files:
-                files[path] = []
-            files[path].append(item)
-
-        for file in files:
-            files[file] = self._format.serialize_batch_values(files[file])
+        input_buffer = pa.BufferReader(data)
+        parquet_table = pq.read_table(input_buffer)
+        
+        # Apply the new schema to the table (if necessary)
+        with self.table.update_schema() as update:
+            update.union_by_name(parquet_table.schema)
             
-        # Upload batch to S3
-        self.upload(path=path, content=files)
+        self.table.append(parquet_table)
+        self._logger.info(f"Appended {len(list(batch))} records to {self.table.name()} table.")
         
-        
-    def _resolve_format(
-        self,
-        formatter_spec: Union[Literal["bytes"], Literal["json"], Literal["parquet"], S3SinkBatchFormat],
-    ) -> S3SinkBatchFormat:
-        if isinstance(formatter_spec, S3SinkBatchFormat):
-            return formatter_spec
-
-        formatter_obj = _S3_SINK_FORMATTERS.get(formatter_spec)
-        if formatter_obj is None:
-            raise InvalidS3FormatterError(
-                f'Invalid format name "{formatter_obj}". '
-                f'Allowed values: "json", "bytes", "parquet", '
-                f"or an instance of {S3SinkBatchFormat.__class__.__name__} "
-            )
-        return formatter_obj
+    
