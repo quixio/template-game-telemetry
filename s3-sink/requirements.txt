@@ -4,3 +4,4 @@ boto3
 jsonlines
 pyarrow
 pyiceberg
+mypy-boto3-glue
