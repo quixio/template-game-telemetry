@@ -207,7 +207,7 @@
             const wsProtocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
 
             // Replace the hostname with the WebSocket hostname
-            const wsHost = url.hostname.replace('game-', 'gametelemetry-');
+            const wsHost = url.hostname.replace('game-', 'wss-');
 
             // Form the WebSocket URL
             const wsURL = `${wsProtocol}//${wsHost}${url.pathname}`;
