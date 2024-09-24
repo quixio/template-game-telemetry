@@ -1,4 +1,4 @@
-name: Scoring
+name: scoring
 language: python
 variables:
   - name: input

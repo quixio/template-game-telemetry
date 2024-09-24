@@ -65,7 +65,7 @@ deployments:
         required: true
         value: clickstream
   - name: Normalization
-    application: Normalization
+    application: normalization
     version: latest
     deploymentType: Service
     resources:
@@ -113,7 +113,7 @@ deployments:
         required: true
         value: AKIA5JJJFC76E24MEO5M
   - name: Scoring
-    application: Scoring
+    application: scoring
     version: latest
     deploymentType: Service
     resources:
@@ -146,7 +146,7 @@ deployments:
           targetPort: 6379
     variables: []
   - name: Dashboard
-    application: Dashboard
+    application: dashboard
     version: latest
     deploymentType: Service
     resources:
@@ -175,7 +175,7 @@ deployments:
         required: true
         value: bot-detection
   - name: Cheater Redis Sink
-    application: Cheater Sink
+    application: cheater-sink
     version: latest
     deploymentType: Service
     resources:
@@ -214,7 +214,7 @@ deployments:
         required: false
         value: is_bot
   - name: Score Redis Sink
-    application: Redis Sink
+    application: redis-sink
     version: latest
     deploymentType: Service
     resources:

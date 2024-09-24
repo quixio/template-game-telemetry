@@ -1,4 +1,4 @@
-name: Normalization
+name: normalization
 language: python
 variables:
   - name: input

@@ -1,10 +1,10 @@
-name: Redis Sink
+name: cheater-sink
 language: python
 variables:
   - name: input
     inputType: InputTopic
     description: This is the input topic
-    defaultValue: score
+    defaultValue: bot-detection
     required: true
   - name: redis_host
     inputType: FreeText
@@ -29,7 +29,7 @@ variables:
   - name: redis_key_prefix
     inputType: FreeText
     description: The prefix for the key to store data under
-    defaultValue: score
+    defaultValue: is_bot
     required: false
 dockerfile: dockerfile
 runEntryPoint: main.py

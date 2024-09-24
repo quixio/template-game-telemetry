@@ -1,4 +1,4 @@
-name: Dashboard
+name: dashboard
 language: python
 variables: []
 dockerfile: dockerfile
