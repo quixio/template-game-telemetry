@@ -21,6 +21,26 @@ variables:
     inputType: FreeText
     defaultValue: json
     required: false
+  - name: AWS_SECRET_ACCESS_KEY
+    inputType: Secret
+    defaultValue: AWS_SECRET_ACCESS_KEY_key
+    required: false
+  - name: AWS_S3_URI
+    inputType: FreeText
+    defaultValue: s3://sneak-data/tomas-snakecheating-prod-clickstream-v2
+    required: false
+  - name: AWS_ACCESS_KEY_ID
+    inputType: FreeText
+    defaultValue: AKIA5JJJFC76E24MEO5M
+    required: false
+  - name: AWS_DEFAULT_REGION
+    inputType: FreeText
+    defaultValue: eu-north-1
+    required: false
+  - name: table_name
+    inputType: FreeText
+    defaultValue: glue.tomas-snakecheating-dev-clickstream-v2
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
