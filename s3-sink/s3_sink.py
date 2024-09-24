@@ -43,6 +43,12 @@ class S3Sink(BatchingSink):
     ):
         super().__init__()
 
+        # Configure logging.
+        self._logger = logging.getLogger("AwsKinesisSink")
+        log_format = '[%(asctime)s.%(msecs)03d] [%(levelname)s] [%(name)s] : %(message)s'
+        logging.basicConfig(format=log_format, datefmt='%Y-%m-%d %H:%M:%S')
+        self._logger.setLevel(loglevel)
+
 
         self._format = ParquetFormat()
         self._prefix = prefix
@@ -87,11 +93,7 @@ class S3Sink(BatchingSink):
 
         self._logger.info("Partition strategy successfully altered.")
         
-        # Configure logging.
-        self._logger = logging.getLogger("AwsKinesisSink")
-        log_format = '[%(asctime)s.%(msecs)03d] [%(levelname)s] [%(name)s] : %(message)s'
-        logging.basicConfig(format=log_format, datefmt='%Y-%m-%d %H:%M:%S')
-        self._logger.setLevel(loglevel)
+  
         
     
 
