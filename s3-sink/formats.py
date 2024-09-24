@@ -5,6 +5,7 @@ from io import BytesIO
 from typing import Optional, Callable, Any, List
 
 from jsonlines import Writer
+from datetime import datetime
 
 __all__ = ("S3SinkBatchFormat", "JSONFormat", "BytesFormat", "ParquetFormat")
 
@@ -136,8 +137,8 @@ class ParquetFormat(S3SinkBatchFormat):
         ]
 
         columns = {
-            "timestamp": [row.timestamp for row in values], 
-            "key": [bytes.decode(row.key) for row in values]
+            "_timestamp": [datetime.fromtimestamp(row.timestamp / 1000.0) for row in values], 
+            "_key": [bytes.decode(row.key) for row in values]
         }
 
         # Convert normalized values to a pyarrow Table

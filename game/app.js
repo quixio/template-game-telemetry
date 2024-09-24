@@ -67,7 +67,7 @@ function generateCombinedGUID() {
 
         // Form the WebSocket URL
         const wsURL = `${wsProtocol}//${wsHost}${url.pathname}`;
-        return 'https://gametelemetry-quix-tomassnakegame-templatedev.deployments.quix.io/'
+
         return wsURL;
     } catch (e) {
         console.error('Invalid URL:', e);
