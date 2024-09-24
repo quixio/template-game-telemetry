@@ -7,6 +7,7 @@ WORKDIR /usr/share/nginx/html
 # Step 3: Copy the static files (index.html and app.js) to the Nginx html directory
 COPY index.html /usr/share/nginx/html/
 COPY app.js /usr/share/nginx/html/
+COPY websocket-client.js /usr/share/nginx/html/
 
 # Step 4: Expose port 80 to the outside world
 EXPOSE 80

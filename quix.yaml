@@ -6,23 +6,6 @@ metadata:
 
 # This section describes the Deployments of the data pipeline
 deployments:
-  - name: Game Telemetry WS
-    application: gametelemetry-web-sockets
-    version: latest
-    deploymentType: Service
-    resources:
-      cpu: 1000
-      memory: 500
-      replicas: 1
-    publicAccess:
-      enabled: true
-      urlPrefix: gametelemetry
-    variables:
-      - name: output
-        inputType: OutputTopic
-        description: Output topic
-        required: true
-        value: clickstream
   - name: Snake game
     application: game
     version: latest
@@ -35,7 +18,7 @@ deployments:
       enabled: true
       urlPrefix: game
     variables: []
-  - name: s3-sink
+  - name: Sink RAW to S3
     application: s3-sink
     version: latest
     deploymentType: Service
@@ -71,7 +54,43 @@ deployments:
         description: ''
         required: true
         value: {{table_name}}
-  - name: Bot detection
+  - name: Game Telemetry Receiver
+    application: gametelemetry-web-sockets
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: gametelemetry
+    variables:
+      - name: output
+        inputType: OutputTopic
+        description: Output topic
+        required: true
+        value: clickstream
+  - name: Normalization
+    application: normalization
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: clickstream
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: transformed
+  - name: Cheat Detection
     application: bot-detection
     version: latest
     deploymentType: Service
@@ -84,7 +103,7 @@ deployments:
         inputType: InputTopic
         description: Name of the input topic to listen to.
         required: false
-        value: clickstream
+        value: transformed
       - name: output
         inputType: OutputTopic
         description: Name of the output topic to write to.
@@ -100,6 +119,146 @@ deployments:
         description: ''
         required: true
         value: AKIA5JJJFC76E24MEO5M
+  - name: Scoring
+    application: scoring
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: transformed
+      - name: output
+        inputType: OutputTopic
+        description: Name of the output topic to write to.
+        required: false
+        value: score
+  - name: Redis
+    application: redis
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 2000
+      memory: 5000
+      replicas: 1
+    network:
+      serviceName: redis
+      ports:
+        - port: 6379
+          targetPort: 6379
+    variables: []
+  - name: Dashboard
+    application: dashboard
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: dashboard
+    variables: []
+  - name: Web Socket Server
+    application: web-sockets-server
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: wss
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Output topic
+        required: true
+        value: bot-detection
+  - name: Cheater Redis Sink
+    application: cheater-sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic
+        required: true
+        value: bot-detection
+      - name: redis_host
+        inputType: FreeText
+        description: Host address for the Redis instance
+        required: true
+        value: redis
+      - name: redis_port
+        inputType: FreeText
+        description: Port for the Redis instance
+        required: true
+        value: 6379
+      - name: redis_password
+        inputType: FreeText
+        description: Password for the Redis instance
+        required: false
+        value: ''
+      - name: redis_username
+        inputType: FreeText
+        description: Username for the Redis instance
+        required: false
+        value: ''
+      - name: redis_key_prefix
+        inputType: FreeText
+        description: The prefix for the key to store data under
+        required: false
+        value: is_bot
+  - name: Score Redis Sink
+    application: redis-sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 500
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: This is the input topic
+        required: true
+        value: score
+      - name: redis_host
+        inputType: FreeText
+        description: Host address for the Redis instance
+        required: true
+        value: redis
+      - name: redis_port
+        inputType: FreeText
+        description: Port for the Redis instance
+        required: true
+        value: 6379
+      - name: redis_password
+        inputType: FreeText
+        description: Password for the Redis instance
+        required: false
+        value: ''
+      - name: redis_username
+        inputType: FreeText
+        description: Username for the Redis instance
+        required: false
+        value: ''
+      - name: redis_key_prefix
+        inputType: FreeText
+        description: The prefix for the key to store data under
+        required: false
+        value: game_score
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -109,3 +268,5 @@ topics:
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: bot-detection
+  - name: transformed
+  - name: score

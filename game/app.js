@@ -1,11 +1,36 @@
 function generateGUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
-  }
-  
-  const session_id = generateGUID();
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+   
+
+const colors = ["red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "white"];
+const animals = ["cat", "dog", "elephant", "tiger", "lion", "bear", "wolf", "fox", "cow", "duck"];
+const verbs = ["running", "jumping", "flying", "swimming", "dancing", "singing", "reading", "writing", "playing", "sleeping"];
+
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateReadableGUID() {
+    const color = getRandomElement(colors);
+    const animal = getRandomElement(animals);
+    const verb = getRandomElement(verbs);
+    return `${color}-${animal}-${verb}`;
+}
+
+function generateCombinedGUID() {
+  const guid = generateGUID();
+  const readableGUID = generateReadableGUID();
+  return `${readableGUID}-${guid}`.toUpperCase();
+}
+
+
+  const session_id = generateCombinedGUID();
+  // const session_id = "steve"
+  document.getElementById('game-id').textContent = session_id;
   
   var canvas = document.getElementById('game');
   var context = canvas.getContext('2d');
@@ -42,7 +67,7 @@ function generateGUID() {
 
         // Form the WebSocket URL
         const wsURL = `${wsProtocol}//${wsHost}${url.pathname}`;
-        
+        return 'https://gametelemetry-quix-tomassnakegame-templatedev.deployments.quix.io/'
         return wsURL;
     } catch (e) {
         console.error('Invalid URL:', e);
@@ -247,8 +272,10 @@ function generateGUID() {
       // Snake eats the apple
       if (cell.x === apple.x && cell.y === apple.y) {
         snake.maxCells++;
+        // Generate a new apple
         apple.x = getRandomInt(0, canvas.width / grid) * grid;
         apple.y = getRandomInt(0, canvas.width / grid) * grid;
+        // Send apple eaten message to telemetry api
         sendTelemetry({
             type: 'apple-eaten',
             x: snake.x / grid,
@@ -256,6 +283,13 @@ function generateGUID() {
             snakeLength: snake.cells.length,
             session_id: session_id
           });
+        // Send telemetry for new apple location
+        sendTelemetry({
+            type: 'new-apple',
+            x: apple.x,
+            y: apple.y,
+            session_id: session_id
+        });
       }
   
       // Check for collision with itself

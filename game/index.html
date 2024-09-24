@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Important for mobile scaling -->
   <title>Snake Game with Autopilot and Telemetry</title>
   <style>
-    html, body {
+    html,
+    body {
       height: 100%;
       margin: 0;
       background: black;
@@ -17,9 +19,11 @@
 
     canvas {
       border: 1px solid white;
-      touch-action: none; /* Prevent touch interference */
-      margin: auto; /* Center canvas horizontally */
+      touch-action: none;
+      /* Prevent touch interference */
       display: block;
+      position: absolute;
+      top: 147px;
     }
 
     .controls-container {
@@ -27,6 +31,8 @@
       flex-direction: column;
       align-items: center;
       margin-bottom: 10px;
+      position: absolute;
+      top: 526px;
     }
 
     .controls {
@@ -40,23 +46,73 @@
     .control-button {
       background-color: white;
       border: 2px solid black;
-      padding: 10px; /* Reduced button height */
+      padding: 10px;
+      /* Reduced button height */
       border-radius: 50%;
       font-size: 20px;
       text-align: center;
       user-select: none;
     }
 
+    .highlight {
+      background-color: rgb(93, 93, 93);
+    }
+
     .control-button:active {
-      background-color: lightgray;
+      background-color: rgb(93, 93, 93);
     }
 
     .placeholder {
-      visibility: hidden; /* Hide the placeholders */
+      visibility: hidden;
+      /* Hide the placeholders */
+    }
+
+    .game-id {
+      color: white;
+      margin-top: 100px;
+      position: absolute;
+
+      p {
+        color: #aeaeae;
+      }
+
+      span {
+        color: white;
+      }
+    }
+
+    .cheater {
+      visibility: hidden;
+      background-color: hsl(0deg 91.59% 46.11%);
+      color: white;
+      position: absolute;
+      top: 51px;
+      font-size: x-large;
+      border-radius: 8px;
+      margin: 0px;
+      padding: 10px;
+    }
+
+    .show-cheat-banner {
+      visibility: visible !important;
+    }
+
+    .cheater-glow {
+      border: 1px solid red;
+      box-shadow: 0 0 10px 5px red;
+      /* horizontal offset, vertical offset, blur radius, spread radius, color */
     }
   </style>
 </head>
+
 <body>
+
+  <div id="messages" class="cheater"></div>
+
+  <div class="game-id">
+    <p>Game ID: <span id="game-id">white-dog-reading</span></p>
+  </div>
+
   <!-- Game Canvas -->
   <canvas id="game"></canvas>
 
@@ -108,7 +164,60 @@
     controlLeft.addEventListener('click', () => dispatchKeyEvent(37)); // Left arrow
     controlRight.addEventListener('click', () => dispatchKeyEvent(39)); // Right arrow
 
+
+    // Highlight the relevant button when the key is pressed on the keyboard
+    const highlightButton = (button) => {
+      button.classList.add('highlight');
+      setTimeout(() => {
+        button.classList.remove('highlight');
+      }, 220);
+    };
+
+    document.addEventListener('keydown', (event) => {
+      switch (event.keyCode) {
+        case 38: // Up arrow
+          highlightButton(controlUp);
+          break;
+        case 40: // Down arrow
+          highlightButton(controlDown);
+          break;
+        case 37: // Left arrow
+          highlightButton(controlLeft);
+          break;
+        case 39: // Right arrow
+          highlightButton(controlRight);
+          break;
+      }
+    });
+
   </script>
-  <script src="app.js"></script>
+
+  <script src="app.js?v=<?= time() ?>"></script>
+
+
+  <script type="module">
+    import WebSocketClient from './websocket-client.js';
+
+    // Example usage
+    //const wsURL = 'https://app-ide-34c9bb94-0fa7-4b9a-ba09-973381088102.deployments.quix.io/stevehttps://app-ide-929771c4-f8d8-4b2c-9c56-682e29fbc664.deployments.quix.io/steve'
+    const wsURL = 'wss://wss-quix-tomassnakegame-templatedev.deployments.quix.io/' + session_id;
+                   
+    const cheater_callback = () => {
+      const messagesDiv = document.getElementById('messages');
+      messagesDiv.innerText = "CHEATING DETECTED";
+      messagesDiv.classList.add("show-cheat-banner");
+
+      const gameCanvas = document.getElementById('game');
+      gameCanvas.classList.add("cheater-glow");
+      messagesDiv.classList.add("cheater-glow");
+
+    }
+
+    const wsClient = new WebSocketClient(wsURL, session_id, cheater_callback);
+
+
+  </script>
+
 </body>
+
 </html>
