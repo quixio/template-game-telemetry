@@ -5,10 +5,6 @@ variables:
     inputType: InputTopic
     defaultValue: clickstream
     required: false
-  - name: format
-    inputType: FreeText
-    defaultValue: json
-    required: false
   - name: AWS_SECRET_ACCESS_KEY
     inputType: Secret
     defaultValue: AWS_SECRET_ACCESS_KEY_key
