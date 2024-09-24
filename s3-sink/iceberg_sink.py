@@ -107,19 +107,14 @@ class IcebergSink(BatchingSink):
             # Create the new PartitionSpec.
             partition_spec = PartitionSpec(schema=schema, fields=partition_fields)
         
-        # Create the Iceberg table if it doesn't exist.
-        try:
-            self.table = self.catalog.load_table(table_name)
-            self._logger.info(f"Loaded existing Iceberg table '{table_name}'.")
-        except Exception:
-            self.table = self.catalog.create_table(
+            # Create the Iceberg table if it doesn't exist.
+            self.table = self.catalog.create_table_if_not_exists(
                 identifier=table_name,
                 schema=schema,
                 location=aws_s3_uri,
-                partition_spec=partition_spec,
-                properties={"format-version": "2"}  # Optional properties.
+                partition_spec=partition_spec
             )
-            self._logger.info(f"Created new Iceberg table '{table_name}' at '{aws_s3_uri}'.")
+            self._logger.info(f"Loaded Iceberg table '{table_name}' at '{aws_s3_uri}'.")
         
     def write(self, batch: SinkBatch):
         """
@@ -137,15 +132,14 @@ class IcebergSink(BatchingSink):
             parquet_table = pq.read_table(input_buffer)
 
             # Update the table schema if necessary.
-            schema_update = self.table.update_schema()
-            schema_update.union_by_name(parquet_table.schema)
-            schema_update.commit()
+            with self.table.update_schema() as update:
+                update.union_by_name(parquet_table.schema)
             
-            # Write data to the table.
-            with self.table.new_append() as append:
-                append.append(pa.Table.from_batches(parquet_table.to_batches()))
-                append.commit()
+            self.table.append(parquet_table)
+            self._logger.info(f"Appended {len(list(batch))} records to {self.table.name()} table.")
+            
             
             self._logger.info(f"Appended {len(list(batch))} records to table '{self.table.name()}'.")
         except Exception as e:
             self._logger.error(f"Error writing data to Iceberg table: {e}")
+            raise
