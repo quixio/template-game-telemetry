@@ -44,7 +44,7 @@ deployments:
       - name: AWS_ACCESS_KEY_ID
         inputType: FreeText
         required: false
-        value: AKIA5JJJFC76GUWDT4NZ
+        value: {{AWS_ACCESS_KEY_ID}}
       - name: AWS_DEFAULT_REGION
         inputType: FreeText
         required: false
