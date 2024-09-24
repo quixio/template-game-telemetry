@@ -1,5 +1,3 @@
-Certainly! Here is the updated README file:
-
 # Iceberg Sink
 
 This code sample demonstrates how to consume data from a topic and write the result to an Apache Iceberg table stored in AWS S3 using the AWS Glue Data Catalog.
