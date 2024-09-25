@@ -1,18 +1,7 @@
 # Websocket server
 
-Using this project you can subscribe to data from a stream and send it to a websocket client.
+In the gaming industry, real-time data transmission is essential for enhancing player experience and game performance. The WebSocket Server service provides a solution for subscribing to data streams and transmitting them to WebSocket clients. By integrating this service, game developers can ensure seamless data flow and real-time updates, allowing for immediate feedback and interaction. This service is particularly beneficial for online multiplayer games, where real-time communication and data-driven adjustments are crucial for maintaining a competitive and engaging environment. The WebSocket Server service ensures that game administrators can monitor and respond to player actions in real-time, improving overall game performance and player satisfaction.
 
-## How to run
-
-Create a [Quix](https://portal.platform.quix.ai/self-sign-up?xlink=github) account or log-in and visit the Samples to use this project.
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **input**: This is the input topic to subscribe to.
 
 ## Contribute
 

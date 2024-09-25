@@ -1,36 +1,7 @@
-# Redis Destination
+# Cheater Sink Service
 
-[This code sample](https://github.com/quixio/quix-samples/tree/main/python/destinations/redis_dest) demonstrates how to consume data from a Kafka topic and persist the data to a Redis database using the Redis Python client.
+In the gaming industry, maintaining a fair and competitive environment is essential for player satisfaction and retention. The Cheater Sink Service is designed to enhance the integrity of the gaming platform by efficiently detecting and storing information about cheaters. By consuming data from a Kafka topic and persisting it to a Redis database, this service ensures that cheater data is readily available for analysis and action. Integrating this solution into gaming infrastructure can help quickly identify and mitigate cheating behavior, thereby improving the overall user experience and maintaining a level playing field for all players. This service is particularly beneficial for online multiplayer games where cheating can significantly disrupt game balance and player enjoyment.
 
-This sample will write JSON data to Redis.
-We assume that the incoming data will have a `key` field, this will be combined with the `redis_key_prefix` environment variable to create the Redis key where data will be stored.
-
-Note that you need [Redis Stack](https://redis.io/docs/about/about-stack/) to use this code sample.
-
-## How to run
-
-Create a [Quix](https://portal.platform.quix.io/signup?xlink=github) account or log in and visit the Code Samples to use this project.
-
-Clicking `Deploy` on the Sample, deploys a pre-built container in Quix. Complete the environment variables to configure the container.
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment Variables
-
-The code sample uses the following environment variables:
-
-- **input**: This is the input topic (Default: `input`, Required: `True`)
-- **redis_host**: Host address for the Redis instance (Required: `True`)
-- **redis_host**: Host address for the Redis instance (Required: `True`)
-- **redis_port**: Port for the Redis instance (Default: `6379`, Required: `True`)
-- **redis_password**: Password for the Redis instance (Default: `None`, Required: `False`)
-- **redis_username**: Username for the Redis instance (Default: `None`, Required: `False`)
-- **redis_key_prefix**: The prefix for the key to store data under.
-
-## Requirements / Prerequisites
-
-You will need to have a Redis Stack database. Either you can use the [Redis Cloud](https://redis.com/cloud/overview/) or
-you can install Redis locally. You can find the instructions to [install Redis locally](https://redis.io/docs/install/install-stack/).
 
 ## Contribute
 
