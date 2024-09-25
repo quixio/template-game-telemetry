@@ -1,21 +1,7 @@
-# Starter transformation
+# Data Normalization Service
 
-[This code sample](https://github.com/quixio/quix-samples/tree/main/python/transformations/starter_transformation) demonstrates how to consume data from a topic, apply a simple transformation to that data and publish the result to an output topic (while printing content to the console output).
+In the gaming industry, data normalization is crucial for ensuring consistency and accuracy across different systems and platforms. The Data Normalization Service provides a solution for standardizing and cleaning data from various sources, making it easier to integrate and analyze. By consuming data from a Kafka topic, this service could apply normalization techniques to ensure consistent data formats, removing duplicates, and correct inconsistencies. This standardization is essential for building a comprehensive player profile, enabling data-driven decision-making and enhancing player experience. The service is particularly beneficial for online multiplayer games, where data from multiple sources needs to be harmonized for effective analytics and player targeting.
 
-Modify the Python code to transform your data on the fly.
-
-## How to run
-
-Create a [Quix](https://portal.platform.quix.io/signup?xlink=github) account or log-in and visit the Samples to use this project.
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **input**: Name of the input topic to listen to.
-- **output**: Name of the output topic to write to.
 
 ## Contribute
 

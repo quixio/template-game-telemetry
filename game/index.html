@@ -194,13 +194,30 @@
 
   <script src="app.js?v=<?= time() ?>"></script>
 
-
   <script type="module">
     import WebSocketClient from './websocket-client.js';
 
-    // Example usage
-    //const wsURL = 'https://app-ide-34c9bb94-0fa7-4b9a-ba09-973381088102.deployments.quix.io/stevehttps://app-ide-929771c4-f8d8-4b2c-9c56-682e29fbc664.deployments.quix.io/steve'
-    const wsURL = 'wss://wss-quix-tomassnakegame-templatedev.deployments.quix.io/' + session_id;
+    function getWebSocketURL(httpURL) {
+        try {
+            const url = new URL(httpURL);
+
+            // Replace the protocol from 'http' or 'https' to 'ws' or 'wss' for WebSocket connection
+            const wsProtocol = url.protocol === 'https:' ? 'wss:' : 'ws:';
+
+            // Replace the hostname with the WebSocket hostname
+            const wsHost = url.hostname.replace('game-', 'wss-');
+
+            // Form the WebSocket URL
+            const wsURL = `${wsProtocol}//${wsHost}${url.pathname}`;
+
+            return wsURL;
+        } catch (e) {
+            console.error('Invalid URL:', e);
+            return null;
+        }
+    }
+
+    const wsURL = getWebSocketURL(document.location) + session_id;
                    
     const cheater_callback = () => {
       const messagesDiv = document.getElementById('messages');
