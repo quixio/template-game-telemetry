@@ -82,7 +82,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: AKIA5JJJFC76E24MEO5M
+        value: AKIA5JJJFC76GRHTOTPS
   - name: Scoring
     application: scoring
     version: latest
