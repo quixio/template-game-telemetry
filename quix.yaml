@@ -18,42 +18,6 @@ deployments:
       enabled: true
       urlPrefix: game
     variables: []
-  - name: Sink RAW to S3
-    application: s3-sink
-    version: latest
-    deploymentType: Service
-    resources:
-      cpu: 200
-      memory: 1000
-      replicas: 1
-    variables:
-      - name: input
-        inputType: InputTopic
-        required: false
-        value: clickstream
-      - name: AWS_SECRET_ACCESS_KEY
-        inputType: Secret
-        description: ''
-        required: false
-        secretKey: s3_secret_access_key
-      - name: AWS_S3_URI
-        inputType: FreeText
-        description: ''
-        required: true
-        value: {{AWS_S3_URI}}
-      - name: AWS_ACCESS_KEY_ID
-        inputType: FreeText
-        required: false
-        value: {{AWS_ACCESS_KEY_ID}}
-      - name: AWS_DEFAULT_REGION
-        inputType: FreeText
-        required: false
-        value: eu-north-1
-      - name: table_name
-        inputType: FreeText
-        description: ''
-        required: true
-        value: {{table_name}}
   - name: Game Telemetry Receiver
     application: gametelemetry-web-sockets
     version: latest
@@ -259,6 +223,42 @@ deployments:
         description: The prefix for the key to store data under
         required: false
         value: game_score
+  - name: Sink RAW to Iceberg
+    application: s3-sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 200
+      memory: 1000
+      replicas: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        required: false
+        value: clickstream
+      - name: AWS_SECRET_ACCESS_KEY
+        inputType: Secret
+        description: ''
+        required: false
+        secretKey: s3_secret_access_key
+      - name: AWS_S3_URI
+        inputType: FreeText
+        description: ''
+        required: true
+        value: s3://sneak-data/tomas-snakecheating-dev-clickstream
+      - name: AWS_ACCESS_KEY_ID
+        inputType: FreeText
+        required: false
+        value: AKIA5JJJFC76GUWDT4NZ
+      - name: AWS_DEFAULT_REGION
+        inputType: FreeText
+        required: false
+        value: eu-north-1
+      - name: table_name
+        inputType: FreeText
+        description: ''
+        required: true
+        value: glue.tomas-snakecheating-dev-clickstream
 
 # This section describes the Topics of the data pipeline
 topics:
