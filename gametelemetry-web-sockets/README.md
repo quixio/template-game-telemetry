@@ -1,18 +1,6 @@
-# Websocket server
+# Game Telemetry Websocket Service
 
-Using this project you can subscribe to data from a stream and send it to a websocket client.
-
-## How to run
-
-Create a [Quix](https://portal.platform.quix.ai/self-sign-up?xlink=github) account or log-in and visit the Samples to use this project.
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **input**: This is the input topic to subscribe to.
+In the gaming industry, real-time telemetry and data analytics are crucial for enhancing player experience and game performance. The Game Telemetry Web Sockets service provides a solution for capturing and transmitting live game data using WebSocket technology. By integrating this service, game developers can monitor player actions, detect anomalies, and gather valuable insights into gameplay dynamics. This real-time data transmission ensures that game administrators can make informed decisions quickly, improving game balance and player satisfaction. The service is particularly beneficial for online multiplayer games, where immediate feedback and data-driven adjustments are essential for maintaining a competitive and engaging environment.
 
 ## Contribute
 

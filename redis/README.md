@@ -1,23 +1,6 @@
-# Starter transformation
+# Redis Server
 
-[This code sample](https://github.com/quixio/quix-samples/tree/develop/python/destinations/starter_destination) demonstrates how to consume data from a Kafka topic, perform an operation on that data, then persist or publish that data to an external destination.
-
-The simple boilerplate code consumes to data from the source topic, prints the content to console output and publishes to any destination based on code that that you must add yourself.
-
-To use the sample, first modify the Python code to publish to your chosen destination(s).
-
-## How to run
-
-Create a [Quix](https://portal.platform.quix.ai/self-sign-up?xlink=github) account or log-in and visit the Samples to use this project.
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **input**: Name of the input topic to listen to.
-- **output**: Name of the output topic to write to.
+In the gaming industry, leveraging efficient data storage solutions is crucial for real-time analytics and performance optimization. Redis, an in-memory data structure store, offers a powerful solution for caching, session management, and real-time data processing. By integrating Redis into your gaming infrastructure, you can achieve low-latency data access, which is essential for tracking player scores, detecting cheaters, and managing game states. This service is particularly beneficial for online multiplayer games, where quick data retrieval and processing are vital for maintaining a seamless and competitive gaming experience. Redis ensures that game administrators can access and analyze player data in real-time, enhancing overall game performance and player satisfaction.
 
 ## Contribute
 

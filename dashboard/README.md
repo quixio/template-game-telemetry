@@ -1,28 +1,6 @@
-# Flask Web Gateway
+# Administration Dashboard
 
-[This code sample](https://github.com/quixio/quix-samples/tree/main/python/sources/web_api_gateway) demonstrates how to run a Flask web gateway and use it to publish to a Kafka topic via HTTP POST requests.
-
-## How to run
-
-Create a [Quix](https://portal.platform.quix.io/signup?xlink=github) account or log-in and visit the Samples to use this project
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-Once you have deployed the Sample within your project there are three things to bear in mind:
-
-1. Your data JSON must contain a "sessionId" key 
-2. Keys and values must be Strings or Bytes.
-3. The Flask gateway endpoint must end with `/data/`. E.g `https://gateway-example-develop.deployments.quix.io/data/`
-
-You can test your endpoint by sending a message via curl:
-`curl -X POST -H "Content-Type: application/json" -d '{"sessionId": "000001", "name": "Tony Hawk", "purchase": "skateboard" }' https://<your-deployment-url>/data/
-`
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **output**: This is the output topic for hello world data.
+In the gaming industry, having a comprehensive and user-friendly admin dashboard is essential for monitoring game performance and player behavior. The Dashboard service provides a way for game administrators to view game scores, detect cheaters, and analyze player data. By connecting to a Redis database, this service aggregates and displays key metrics, allowing for quick identification of top players and potential cheaters. The intuitive interface, built with Flask, ensures that administrators can easily navigate through the data, making informed decisions to enhance the gaming experience. This service is particularly beneficial for online multiplayer games, where maintaining a fair and competitive environment is crucial for player satisfaction and retention.
 
 ## Contribute
 

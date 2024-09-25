@@ -1,21 +1,21 @@
-# Starter transformation
+# Bot Detection Service
 
-[This code sample](https://github.com/quixio/quix-samples/tree/main/python/transformations/starter_transformation) demonstrates how to consume data from a topic, apply a simple transformation to that data and publish the result to an output topic (while printing content to the console output).
+In the gaming industry, detecting cheaters is crucial for maintaining a fair and competitive environment. This bot detection service leverages a machine learning model to analyze player behavior in real-time, identifying patterns indicative of bot and cheater activity. By consuming telemetry data from game sessions, applying feature extraction techniques, and utilizing a pre-trained model, this service can flag potential cheaters. This solution can enhance the integrity of your game, ensuring a level playing field for all players and improving overall user experience. This service is particularly beneficial for online multiplayer games where cheating can significantly impact the game's balance and player satisfaction.
 
-Modify the Python code to transform your data on the fly.
+This service consumes data from a topic, applies a bot detection model, and publishes the result of the model to an output topic.
 
-## How to run
-
-Create a [Quix](https://portal.platform.quix.io/signup?xlink=github) account or log-in and visit the Samples to use this project.
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment variables
+## Environment Variables
 
 The code sample uses the following environment variables:
 
 - **input**: Name of the input topic to listen to.
 - **output**: Name of the output topic to write to.
+- **AWS_SECRET_ACCESS_KEY**: Your AWS secret access key.
+- **AWS_ACCESS_KEY_ID**: Your AWS access key ID.
+
+## Dockerfile
+
+The Dockerfile sets up the environment and dependencies for the bot detection service.
 
 ## Contribute
 

@@ -1,28 +1,6 @@
-# Flask Web Gateway
+# Snake Game
 
-[This code sample](https://github.com/quixio/quix-samples/tree/develop/python/sources/web_api_gateway) demonstrates how to run a Flask web gateway and use it to publish to a Kafka topic via HTTP POST requests.
-
-## How to run
-
-Create a [Quix](https://portal.platform.quix.ai/self-sign-up?xlink=github) account or log-in and visit the Samples to use this project
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-Once you have deployed the Sample within your project there are three things to bear in mind:
-
-1. Your data JSON must contain a "sessionId" key 
-2. Keys and values must be Strings or Bytes.
-3. The Flask gateway endpoint must end with `/data/`. E.g `https://gateway-example-develop.deployments.quix.io/data/`
-
-You can test your endpoint by sending a message via curl:
-`curl -X POST -H "Content-Type: application/json" -d '{"sessionId": "000001", "name": "Tony Hawk", "purchase": "skateboard" }' https://<your-deployment-url>/data/
-`
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **output**: This is the output topic for hello world data.
+In the gaming industry, providing an engaging and interactive experience is key to player retention and satisfaction. The Snake Game with Autopilot and Telemetry offers a modern twist on the classic game, incorporating real-time telemetry and autopilot mode to simulate cheater gameplay. By leveraging a Flask web gateway to publish game data to a Kafka topic via HTTP POST requests, this game ensures seamless data integration and real-time updates. The intuitive mobile controls and responsive design make it accessible on various devices, while the telemetry data provides valuable insights into player behavior and game performance. 
 
 ## Contribute
 

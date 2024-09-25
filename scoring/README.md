@@ -1,21 +1,6 @@
-# Starter transformation
+# Scoring Service
 
-[This code sample](https://github.com/quixio/quix-samples/tree/main/python/transformations/starter_transformation) demonstrates how to consume data from a topic, apply a simple transformation to that data and publish the result to an output topic (while printing content to the console output).
-
-Modify the Python code to transform your data on the fly.
-
-## How to run
-
-Create a [Quix](https://portal.platform.quix.io/signup?xlink=github) account or log-in and visit the Samples to use this project.
-
-Clicking `Edit code` on the Sample, forks the project to your own Git repo so you can customize it before deploying.
-
-## Environment variables
-
-The code sample uses the following environment variables:
-
-- **input**: Name of the input topic to listen to.
-- **output**: Name of the output topic to write to.
+In the gaming industry, accurately tracking and updating player scores in real-time is essential for maintaining competitive gameplay and enhancing player engagement. The Scoring service provides a solution for calculating and managing game scores using a stateful data processing approach. By consuming game telemetry data, this service dynamically updates player scores based on in-game events, such as apples eaten in a Snake game. The integration with Kafka ensures seamless data flow and real-time score updates, allowing game administrators to monitor player performance and make data-driven decisions. This service is particularly beneficial for online multiplayer games, where real-time score tracking is crucial for maintaining a fair and competitive environment.
 
 ## Contribute
 
