@@ -258,7 +258,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: {{table.name}}
+        value: {{table_name}}
 
 # This section describes the Topics of the data pipeline
 topics:
