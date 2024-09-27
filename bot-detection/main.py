@@ -47,7 +47,7 @@ loaded_model = load_model(s3_file_name)
 # Example: predictions = loaded_model.predict(X_test)
 
 
-app = Application(consumer_group="bot-detection-dev-v0.4", auto_offset_reset="earliest")
+app = Application(consumer_group="bot-detection-dev-v0.7", auto_offset_reset="latest")
 
 input_topic = app.topic(os.environ["input"])
 output_topic = app.topic(os.environ["output"])
