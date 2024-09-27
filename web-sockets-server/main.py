@@ -4,50 +4,8 @@ from websockets.exceptions import ConnectionClosedError
 import os
 from quixstreams import Application
 from dotenv import load_dotenv
-import uuid
 import json
 load_dotenv()
-
-
-
-
-
-
-# from quixstreams import Application
-# # Initialize the application
-# app = Application(consumer_group='my-consumer-group', loglevel='DEBUG')
-# # Define the input topic
-# input_topic = app.topic("score")
-# # Create a consumer
-# with app.get_consumer() as consumer:
-#     # Subscribe to the topic
-#     consumer.subscribe([input_topic.name])
-#     while True:
-#         msg = consumer.poll(timeout=1.0)
-#         print(msg)
-#         if msg is not None:
-#             print(f'Received a message from topic {msg.topic()}: {msg.value()}')
-#             # Optionally commit the offset
-#             consumer.store_offsets(msg)
-
-
-
-
-
-# def handle_consumer_error(e):
-#     print(e)
-
-# app = Application.Quix("web-sockets-server-v10000000", auto_offset_reset="earliest", loglevel='DEBUG',
-# on_consumer_error=handle_consumer_error)
-# topic = app.topic(name=os.environ["input"])
-# consumer = app.get_consumer()
-
-# print(topic.name)
-# consumer.subscribe([topic.name])
-
-# while True:
-#     message = consumer.poll(1)
-#     print(message)
 
 
 class webSocketSource:
@@ -69,18 +27,11 @@ class webSocketSource:
     async def consume_messages(self):
         while True:
             message = self._consumer.poll(1)
-            # print(message)
             if message is not None:
-                # print(message.value())
                 value = json.loads(bytes.decode(message.value()))
                 key = bytes.decode(message.key())
-                # print(key)
-                # print(value)
-                # print(key)
-                # print(key in self.websocket_connections)
 
                 if key in self.websocket_connections:
-                    # print(f"Key: {key} - ---")
                     for client in self.websocket_connections[key]:
                         try:
                             print(f"Sending: {value}")
@@ -105,11 +56,9 @@ class webSocketSource:
         path = strip_leading_slash(path)
 
         if path not in self.websocket_connections:
-            # print(f"Adding {path} empty connection list")
             self.websocket_connections[path] = []
 
         self.websocket_connections[path].append(websocket)
-        # print(self.websocket_connections)
 
         
         try:
