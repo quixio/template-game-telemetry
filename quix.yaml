@@ -249,7 +249,7 @@ deployments:
       - name: AWS_ACCESS_KEY_ID
         inputType: FreeText
         required: false
-        value: AKIA5JJJFC76GUWDT4NZ
+        value: AKIA5JJJFC76GRHTOTPS
       - name: AWS_DEFAULT_REGION
         inputType: FreeText
         required: false
@@ -258,7 +258,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: {{table_name}}
+        value: game_data
 
 # This section describes the Topics of the data pipeline
 topics:
