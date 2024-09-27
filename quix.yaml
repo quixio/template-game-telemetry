@@ -258,7 +258,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: glue.tomas-snakecheating-dev-clickstream
+        value: {{table.name}}
 
 # This section describes the Topics of the data pipeline
 topics:
