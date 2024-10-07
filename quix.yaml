@@ -258,7 +258,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: {{table_name}}
+        value: glue.tomas-snakecheating-dev-clickstream
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -272,3 +272,4 @@ topics:
   - name: score
   - name: consumptions-credits-aggregated
   - name: consumptions-credits-aggregated-old
+  - name: data
