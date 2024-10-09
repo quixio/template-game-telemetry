@@ -16,7 +16,11 @@ def default_dumps(value):
 def default_loads(value):
     if isinstance(value, bytes):
         value = value.decode('utf-8')
-    return xmltodict.parse(value)
+    data = xmltodict.parse(value)
+    # If 'root' is the only key, return its value directly
+    if 'root' in data and len(data) == 1:
+        return data['root']
+    return data
 
 
 class XMLSerializer(Serializer):
