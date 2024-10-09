@@ -272,3 +272,4 @@ topics:
   - name: score
   - name: consumptions-credits-aggregated
   - name: consumptions-credits-aggregated-old
+  - name: xml-clickstream
