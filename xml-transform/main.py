@@ -5,7 +5,7 @@ from xml_serializer import XMLSerializer, XMLDeserializer
 from dotenv import load_dotenv
 load_dotenv()
 
-app = Application(consumer_group="xml-v1", auto_offset_reset="earliest")
+app = Application(consumer_group="xml-v1.1", auto_offset_reset="earliest")
 
 input_topic = app.topic(os.environ["output"], value_deserializer=XMLDeserializer())
 #output_topic = app.topic(os.environ["output"], value_serializer=XMLSerializer())
