@@ -1,5 +1,0 @@
-quixstreams<2.10
-python-dotenv
-lxml
-dicttoxml
-xmltodict
