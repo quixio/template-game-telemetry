@@ -273,3 +273,4 @@ topics:
   - name: consumptions-credits-aggregated
   - name: consumptions-credits-aggregated-old
   - name: xml-clickstream
+  - name: transform
