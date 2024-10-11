@@ -1,11 +1,9 @@
 import asyncio
 import websockets
-from websockets.exceptions import ConnectionClosedError
 import os
 from quixstreams import Application
 from dotenv import load_dotenv
 import json
-import base64
 load_dotenv()
 
 class webSocketSource:
@@ -69,19 +67,12 @@ class webSocketSource:
             return s.lstrip('/')
 
         path = strip_leading_slash(path)
-        if not self.authenticate(websocket):
-            print("Unauthorized incomming connection")
-            await websocket.close(code=1008, reason="Unauthorized")
-            return
-        else:
-            print("Incomming connection authorized")
-
+        
         if path not in self.websocket_connections:
             self.websocket_connections[path] = []
 
         self.websocket_connections[path].append(websocket)
 
-        
         try:
             print("Keep the connection open and wait for messages if needed")
             await websocket.wait_closed()
@@ -95,18 +86,6 @@ class webSocketSource:
             print("Removing client from connection list")
             if path in self.websocket_connections:
                 self.websocket_connections[path].remove(websocket)  # Use `del` to remove items from a dictionary
-
-    def authenticate(self, websocket):
-        auth_header = websocket.request_headers.get('Authorization')
-        if auth_header is None or not auth_header.startswith('Basic '):
-            return False
-
-        encoded_credentials = auth_header.split(' ')[1]
-        decoded_credentials = base64.b64decode(encoded_credentials).decode('utf-8')
-        username, password = decoded_credentials.split(':')
-
-        # Replace with your actual username and password
-        return username == os.environ["USERNAME"] and password == os.environ["PASSWORD"]
 
     async def start_websocket_server(self):
         print("Starting WebSocket server on ws://0.0.0.0:80")
