@@ -5,8 +5,8 @@ import os
 from quixstreams import Application
 from dotenv import load_dotenv
 import json
+import base64
 load_dotenv()
-
 
 class webSocketSource:
     
@@ -16,7 +16,6 @@ class webSocketSource:
         
         self._consumer = app.get_consumer()
         self._consumer.subscribe([self._topic.name])
-        # self._consumer.subscribe(["score"])
 
         # Holds all client connections partitioned by page.
         self.websocket_connections = {}
@@ -31,16 +30,32 @@ class webSocketSource:
                 value = json.loads(bytes.decode(message.value()))
                 key = bytes.decode(message.key())
 
-                if key in self.websocket_connections:
-                    for client in self.websocket_connections[key]:
-                        try:
-                            print(f"Sending: {value}")
-                            await client.send(json.dumps(value))
-                        except:
-                            print("Connection already closed.")
+                # Check if the key or '*' is in the websocket_connections
+                if key in self.websocket_connections or '*' in self.websocket_connections:
                     
-                    print(value)
-                    print(f"Send to {key} {str(len(self.websocket_connections[key]))} times.")
+                    # Send to clients connected with the specific key
+                    if key in self.websocket_connections:
+                        for client in self.websocket_connections[key]:
+                            try:
+                                await client.send(json.dumps(value))
+                            except:
+                                print("Connection already closed.")
+                    
+                    # Send to clients connected with the wildcard '*'
+                    if '*' in self.websocket_connections:
+                        for client in self.websocket_connections['*']:
+                            try:
+                                await client.send(json.dumps(value))
+                            except:
+                                print("Connection already closed.")
+
+
+                    # uncomment for debugging
+                    # print(value)
+                    # print(f"Send to {key} {str(len(self.websocket_connections[key]))} times.")
+
+                # give the other process a chance to handle some data
+                await asyncio.sleep(0.001)
             else:
                 await asyncio.sleep(1)
                 
@@ -54,6 +69,12 @@ class webSocketSource:
             return s.lstrip('/')
 
         path = strip_leading_slash(path)
+        if not self.authenticate(websocket):
+            print("Unauthorized incomming connection")
+            await websocket.close(code=1008, reason="Unauthorized")
+            return
+        else:
+            print("Incomming connection authorized")
 
         if path not in self.websocket_connections:
             self.websocket_connections[path] = []
@@ -75,8 +96,21 @@ class webSocketSource:
             if path in self.websocket_connections:
                 self.websocket_connections[path].remove(websocket)  # Use `del` to remove items from a dictionary
 
+    def authenticate(self, websocket):
+        auth_header = websocket.request_headers.get('Authorization')
+        if auth_header is None or not auth_header.startswith('Basic '):
+            return False
+
+        encoded_credentials = auth_header.split(' ')[1]
+        decoded_credentials = base64.b64decode(encoded_credentials).decode('utf-8')
+        username, password = decoded_credentials.split(':')
+
+        # Replace with your actual username and password
+        return username == os.environ["USERNAME"] and password == os.environ["PASSWORD"]
+
     async def start_websocket_server(self):
-        print("listening for websocket connections..")
+        print("Starting WebSocket server on ws://0.0.0.0:80")
+        print("Listening for websocket connections..")
         server = await websockets.serve(self.handle_websocket, '0.0.0.0', 80)
         await server.wait_closed()
 
