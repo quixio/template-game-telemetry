@@ -1,4 +1,4 @@
-https://github.com/quixio/quix-streams.git@main[iceberg_sink]
+quixstreams[iceberg_aws]==3.1.0
 python-dotenv
 pyiceberg
 pyarrow
