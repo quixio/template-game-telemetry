@@ -1,5 +1,5 @@
-from quixstreams import Application
-from quixstreams.sinks.community.iceberg import IcebergSink, AWSIcebergConfig
+# from quixstreams import Application
+# from quixstreams.sinks.community.iceberg import IcebergSink, AWSIcebergConfig
 import os
 
 from dotenv import load_dotenv
