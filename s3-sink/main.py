@@ -4,7 +4,7 @@ import os
 
 from dotenv import load_dotenv
 load_dotenv()
-
+print(os.environ)
 app = Application(consumer_group="destination-v2.17", 
                   auto_offset_reset = "earliest",
                   commit_interval=5)
