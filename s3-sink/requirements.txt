@@ -1,7 +1,2 @@
-quixstreams<2.10
+git+https://github.com/quixio/quix-streams.git@feat/main
 python-dotenv
-boto3
-jsonlines
-pyarrow
-pyiceberg
-mypy-boto3-glue
