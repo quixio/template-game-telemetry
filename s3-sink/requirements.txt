@@ -1,4 +1,4 @@
-git+https://github.com/quixio/quix-streams.git@main
+https://github.com/quixio/quix-streams.git@main[iceberg_aws]
 python-dotenv
 pyiceberg
 pyarrow
