@@ -258,7 +258,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: glue.game_data
+        value: glue.prod_game_data
 
 # This section describes the Topics of the data pipeline
 topics:
