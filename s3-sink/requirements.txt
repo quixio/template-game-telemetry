@@ -1,5 +1,4 @@
 git+https://github.com/quixio/quix-streams.git@main
 python-dotenv
-pyarrow
-pyathena
 pyiceberg
+pyarrow
