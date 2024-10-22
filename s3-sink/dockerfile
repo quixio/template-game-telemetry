@@ -14,11 +14,7 @@ COPY ./requirements.txt ./
 
 # Install dependencies
 # Adding `--no-cache-dir` to avoid storing unnecessary files and potentially reduce image size
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# TODO REVERT AFTER RELEASE
-RUN pip install --no-cache-dir -r requirements.txt --extra-index-url https://pkgs.dev.azure.com/quix-analytics/53f7fe95-59fe-4307-b479-2473b96de6d1/_packaging/public/pypi/simple/
-
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application
 COPY . .
