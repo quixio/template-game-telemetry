@@ -24,3 +24,4 @@ sdf.sink(iceberg_sink)
 
 if __name__ == "__main__":
     app.run(sdf)
+
