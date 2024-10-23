@@ -9,7 +9,7 @@ variables:
   - name: table_name
     inputType: FreeText
     description: ''
-    defaultValue: iceberg_demo
+    defaultValue: glue.tomas-snakecheating-dev-clickstream-test
     required: false
   - name: AWS_S3_URI
     inputType: FreeText
