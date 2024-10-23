@@ -1,28 +1,26 @@
 from quixstreams import Application
+from quixstreams.sinks.community.iceberg import IcebergSink, AWSIcebergConfig
 import os
 
 from dotenv import load_dotenv
 load_dotenv()
 
-# you decide what happens here!
-def sink(message):
-    value = message['mykey']
-    # write_to_db(value) # implement your logic to write data or send alerts etc
-
-    # for more help using QuixStreams see the docs:
-    # https://quix.io/docs/quix-streams/introduction.html
-
-app = Application(consumer_group="destination-v1", auto_offset_reset = "latest")
+app = Application(consumer_group="destination-v2.17", 
+                  auto_offset_reset = "earliest",
+                  commit_interval=5)
 
 input_topic = app.topic(os.environ["input"])
 
+iceberg_sink = IcebergSink(
+    data_catalog_spec="aws_glue",
+    table_name=os.environ["table_name"],
+    config=AWSIcebergConfig(
+        aws_s3_uri=os.environ["AWS_S3_URI"],
+        aws_secret_access_key=os.environ["AWS_SECRET_ACCESS_KEY"],
+        aws_access_key_id=os.environ["AWS_ACCESS_KEY_ID"]))
+
 sdf = app.dataframe(input_topic)
-
-# call the sink function for every message received.
-sdf = sdf.update(sink)
-
-# you can print the data row if you want to see what's going on.
-sdf = sdf.update(lambda row: print(row))
+sdf.sink(iceberg_sink)
 
 if __name__ == "__main__":
     app.run(sdf)
