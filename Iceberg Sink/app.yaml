@@ -16,6 +16,11 @@ variables:
     description: ''
     defaultValue: s3://sneak-data/tomas-snakecheating-dev-clickstream
     required: false
+  - name: AWS_SECRET_ACCESS_KEY
+    inputType: Secret
+    description: ''
+    defaultValue: s3_secret_access_key
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
