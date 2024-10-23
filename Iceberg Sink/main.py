@@ -8,7 +8,7 @@ load_dotenv()
 app = Application(consumer_group="destination-v2.17", 
                   auto_offset_reset = "earliest",
                   commit_interval=5)
-
+print(os.environ)
 input_topic = app.topic(os.environ["input"])
 
 iceberg_sink = IcebergSink(
