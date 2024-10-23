@@ -11,6 +11,11 @@ variables:
     description: ''
     defaultValue: iceberg_demo
     required: false
+  - name: AWS_S3_URI
+    inputType: FreeText
+    description: ''
+    defaultValue: s3://sneak-data/tomas-snakecheating-dev-clickstream
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
