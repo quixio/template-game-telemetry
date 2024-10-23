@@ -26,6 +26,11 @@ variables:
     description: ''
     defaultValue: AKIA5JJJFC76GRHTOTPS
     required: false
+  - name: AWS_DEFAULT_REGION
+    inputType: FreeText
+    description: ''
+    defaultValue: eu-north-1
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
