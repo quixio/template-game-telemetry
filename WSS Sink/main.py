@@ -28,7 +28,8 @@ class websocket_server:
 
 async def main():
     client = websocket_server()
-    asyncio.create_task(client.consume_messages())
+    # asyncio.create_task(client.consume_messages())
+    client.consume_messages()
 
 try:
     asyncio.run(main())
