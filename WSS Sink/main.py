@@ -18,7 +18,8 @@ class websocket_server:
         while True:
             message = self._consumer.poll(1)
             if message is not None:
-                print(message.value())
+                value = json.loads(bytes.decode(message.value()))
+                key = bytes.decode(message.key())
 
     async def handle_websocket(self, websocket, path):
         ...
