@@ -8,7 +8,7 @@ import json
 class websocket_server:
 
     def __init__(self) -> None:
-        app = Application("consumer-group", auto_offset_reset="latest")
+        app = Application("consumer-group", auto_offset_reset="latest", loglevel="DEBUG")
         self._topic = app.topic(name=os.environ["input"])
 
         self._consumer = app.get_consumer()
