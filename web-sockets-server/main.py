@@ -47,11 +47,6 @@ class webSocketSource:
                             except:
                                 print("Connection already closed.")
 
-
-                    # uncomment for debugging
-                    # print(value)
-                    # print(f"Send to {key} {str(len(self.websocket_connections[key]))} times.")
-
                 # give the other process a chance to handle some data
                 await asyncio.sleep(0.001)
             else:
