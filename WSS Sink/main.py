@@ -21,6 +21,8 @@ class websocket_server:
                 value = json.loads(bytes.decode(message.value()))
                 key = bytes.decode(message.key())
 
+                print(value)
+
     async def handle_websocket(self, websocket, path):
         ...
 
