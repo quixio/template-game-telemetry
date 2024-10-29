@@ -268,7 +268,6 @@ topics:
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: bot-detection
-    dataTier: Silver
   - name: transformed
   - name: score
   - name: consumptions-credits-aggregated
