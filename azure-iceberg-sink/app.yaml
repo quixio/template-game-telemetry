@@ -29,7 +29,7 @@ variables:
   - name: POSTGRES_CONNECTION_STR
     inputType: Secret
     description: ''
-    defaultValue: postgres_connection_str
+    defaultValue: POSTGRES_CONNECTION_STR
     required: true
   - name: AZURE_STORAGE_URI
     inputType: FreeText
