@@ -372,7 +372,15 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: gametelemtry
+        value: gametelemtry-v3
+      - name: consumer_group
+        inputType: FreeText
+        required: false
+        value: iceberg-sink-v3.9
+      - name: leading_edge_ms
+        inputType: FreeText
+        required: false
+        value: 5000
 
 # This section describes the Topics of the data pipeline
 topics:
