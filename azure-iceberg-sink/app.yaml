@@ -49,7 +49,7 @@ variables:
   - name: commit_every
     inputType: FreeText
     description: ''
-    defaultValue: 10
+    defaultValue: 1000
     required: true
   - name: commit_interval
     inputType: FreeText
