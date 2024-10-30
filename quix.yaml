@@ -315,7 +315,7 @@ deployments:
         inputType: FreeText
         description: ''
         required: true
-        value: gametelemtry
+        value: gametelemtry-v3
       - name: commit_every
         inputType: FreeText
         description: ''
