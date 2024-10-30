@@ -19,12 +19,12 @@ variables:
   - name: AZURE_STORAGE_URI
     inputType: FreeText
     description: ''
-    defaultValue: abfs://iceberg@williamsf1pg.dfs.core.windows.net/tomastest/native-v5/vCar_Chassis
+    defaultValue: abfs://iceberg@quixdatalake.blob.core.windows.net/iceberg
     required: true
   - name: NAMESPACE
     inputType: FreeText
     description: ''
-    defaultValue: tomastest-v2
+    defaultValue: dev
     required: true
   - name: password
     inputType: Secret
@@ -34,8 +34,16 @@ variables:
   - name: TABLE_NAME
     inputType: FreeText
     description: ''
-    defaultValue: native-v5
+    defaultValue: gametelemtry-v3
     required: true
+  - name: consumer_group
+    inputType: FreeText
+    defaultValue: iceberg-sink-v3.9
+    required: false
+  - name: leading_edge_ms
+    inputType: FreeText
+    defaultValue: 5000
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py
