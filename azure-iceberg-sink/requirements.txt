@@ -1,0 +1,7 @@
+quixstreams<2.10
+python-dotenv
+boto3
+jsonlines
+pyarrow
+pyiceberg
+mypy-boto3-glue
