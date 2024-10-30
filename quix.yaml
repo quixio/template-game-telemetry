@@ -326,6 +326,73 @@ deployments:
         description: ''
         required: false
         value: 5
+  - name: Query
+    application: query
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: query
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: clickstream
+      - name: consumer_group
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iceberg-sink-v3.4
+      - name: leading_edge_ms
+        inputType: FreeText
+        description: ''
+        required: true
+        value: 5000
+      - name: AZURE_STORAGE_CONNECTION_STRING
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: azure_connection_str
+      - name: AZURE_STORAGE_CONTAINER_NAME
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iceberg
+      - name: POSTGRES_CONNECTION_STR
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: POSTGRES_CONNECTION_STR
+      - name: AZURE_STORAGE_URI
+        inputType: FreeText
+        description: ''
+        required: true
+        value: abfs://iceberg@quixdatalake.blob.core.windows.net/iceberg
+      - name: NAMESPACE
+        inputType: FreeText
+        description: ''
+        required: true
+        value: dev
+      - name: TABLE_NAME
+        inputType: FreeText
+        description: ''
+        required: true
+        value: gametelemtry
+      - name: commit_every
+        inputType: FreeText
+        description: ''
+        required: true
+        value: 1000
+      - name: commit_interval
+        inputType: FreeText
+        description: ''
+        required: false
+        value: 5
 
 # This section describes the Topics of the data pipeline
 topics:
