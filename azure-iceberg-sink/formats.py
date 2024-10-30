@@ -65,8 +65,15 @@ class ParquetFormat(S3SinkBatchFormat):
                     columns[key] = []
 
                 columns[key].append(row.value[key])
+                
+        # Identify keys that have only None values in their arrays
+        none_only_keys = {key for key, values in columns.items() if all(v is None for v in values)}
+        
+        # Create a new dictionary without the keys that have only None values
+        cleaned_data = {key: values for key, values in columns.items() if key not in none_only_keys}
+                
                     
-        table = pa.Table.from_pydict(columns)
+        table = pa.Table.from_pydict(cleaned_data)
         with BytesIO() as f:
             pq.write_table(table, f, compression=self._compression_type)
             value_bytes = f.getvalue()

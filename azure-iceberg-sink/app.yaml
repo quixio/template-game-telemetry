@@ -9,7 +9,7 @@ variables:
   - name: consumer_group
     inputType: FreeText
     description: ''
-    defaultValue: iceberg-sink-v3.4
+    defaultValue: iceberg-sink-v3.5
     required: true
   - name: leading_edge_ms
     inputType: FreeText
