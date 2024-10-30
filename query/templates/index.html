@@ -32,6 +32,12 @@
             font-family: Arial, sans-serif;
             color: #333;
         }
+        #table-container {
+            max-height: 400px; /* Set max height for scrollable area */
+            overflow-y: auto; /* Enable vertical scrollbar */
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
     </style>
     <!-- Load Monaco Editor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs/loader.min.js"></script>
@@ -54,7 +60,8 @@
     </form>
     <p>{{ message }}</p>
     
-    <div>
+    <!-- Scrollable container for the table -->
+    <div id="table-container">
         {{ tables | safe }}
     </div>
 
@@ -63,10 +70,12 @@
         require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.33.0/min/vs' } });
         require(['vs/editor/editor.main'], function () {
             window.editor = monaco.editor.create(document.getElementById('editor'), {
-                // Use the provided custom_code from Flask to set the editor's initial content
                 value: {{ custom_code | tojson }},  // Properly escaped for JavaScript
                 language: 'python',
-                theme: 'vs-dark'
+                theme: 'vs-dark',
+                // Enable autocomplete settings
+                suggestOnTriggerCharacters: true,
+                quickSuggestions: { other: true, comments: true, strings: true }
             });
         });
 

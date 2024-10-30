@@ -69,9 +69,7 @@ def index():
 
         # Set a default code snippet if custom_code is empty (first load)
         default_code = """# Example transformation code
-df = df.set_index("_timestamp")
-df = df.resample("50ms").last().reset_index()
-df = df[["_timestamp", "vCar:Chassis", "gLat:Chassis"]]
+#df = df.groupby("type").size().reset_index()
 """
         
         message = "Query data please."
