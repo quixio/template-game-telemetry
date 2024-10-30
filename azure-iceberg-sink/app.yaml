@@ -19,7 +19,7 @@ variables:
   - name: AZURE_STORAGE_CONNECTION_STRING
     inputType: Secret
     description: ''
-    defaultValue: azure_storage_connection_str
+    defaultValue: azure_connection_str
     required: true
   - name: AZURE_STORAGE_CONTAINER_NAME
     inputType: FreeText
