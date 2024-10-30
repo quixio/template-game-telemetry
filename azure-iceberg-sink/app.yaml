@@ -1,33 +1,61 @@
-name: AzureIcebergSink
+name: IcebergSink
 language: python
 variables:
   - name: input
     inputType: InputTopic
+    description: Name of the input topic to listen to.
     defaultValue: clickstream
     required: false
-  - name: AWS_SECRET_ACCESS_KEY
+  - name: consumer_group
+    inputType: FreeText
+    description: ''
+    defaultValue: iceberg-sink-v3.4
+    required: true
+  - name: leading_edge_ms
+    inputType: FreeText
+    description: ''
+    defaultValue: 5000
+    required: true
+  - name: AZURE_STORAGE_CONNECTION_STRING
     inputType: Secret
     description: ''
-    defaultValue: s3_secret_access_key
-    required: false
-  - name: AWS_S3_URI
+    defaultValue: azure_storage_connection_str
+    required: true
+  - name: AZURE_STORAGE_CONTAINER_NAME
     inputType: FreeText
     description: ''
-    defaultValue: s3://sneak-data/tomas-snakecheating-dev-clickstream
+    defaultValue: iceberg
     required: true
-  - name: AWS_ACCESS_KEY_ID
-    inputType: FreeText
-    defaultValue: AKIA5JJJFC76E24MEO5M
-    required: false
-  - name: AWS_DEFAULT_REGION
-    inputType: FreeText
-    defaultValue: eu-north-1
-    required: false
-  - name: table_name
+  - name: POSTGRES_CONNECTION_STR
+    inputType: Secret
+    description: ''
+    defaultValue: postgres_connection_str
+    required: true
+  - name: AZURE_STORAGE_URI
     inputType: FreeText
     description: ''
-    defaultValue: glue.tomas-snakecheating-dev-clickstream
+    defaultValue: abfs://iceberg@quixdatalake.blob.core.windows.net/iceberg
     required: true
+  - name: NAMESPACE
+    inputType: FreeText
+    description: ''
+    defaultValue: dev
+    required: true
+  - name: TABLE_NAME
+    inputType: FreeText
+    description: ''
+    defaultValue: gametelemtry
+    required: true
+  - name: commit_every
+    inputType: FreeText
+    description: ''
+    defaultValue: 10
+    required: true
+  - name: commit_interval
+    inputType: FreeText
+    description: ''
+    defaultValue: 5
+    required: false
 dockerfile: dockerfile
 runEntryPoint: main.py
 defaultFile: main.py

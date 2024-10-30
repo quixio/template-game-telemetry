@@ -1,7 +1,11 @@
-quixstreams<2.10
+quixstreams==2.11.1
 python-dotenv
-boto3
-jsonlines
 pyarrow
 pyiceberg
-mypy-boto3-glue
+boto3
+mypy_boto3_glue
+sqlalchemy
+psycopg2-binary
+adlfs
+numpy
+redis
