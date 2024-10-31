@@ -259,6 +259,128 @@ deployments:
         description: ''
         required: true
         value: glue.prod_game_data
+  - name: IcebergSink
+    application: azure-iceberg-sink
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 500
+      replicas: 1
+    state:
+      enabled: true
+      size: 1
+    variables:
+      - name: input
+        inputType: InputTopic
+        description: Name of the input topic to listen to.
+        required: false
+        value: clickstream
+      - name: consumer_group
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iceberg-sink-v3.4
+      - name: leading_edge_ms
+        inputType: FreeText
+        description: ''
+        required: true
+        value: 5000
+      - name: AZURE_STORAGE_CONNECTION_STRING
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: azure_connection_str
+      - name: AZURE_STORAGE_CONTAINER_NAME
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iceberg
+      - name: POSTGRES_CONNECTION_STR
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: POSTGRES_CONNECTION_STR
+      - name: AZURE_STORAGE_URI
+        inputType: FreeText
+        description: ''
+        required: true
+        value: abfs://iceberg@quixdatalake.blob.core.windows.net/iceberg
+      - name: NAMESPACE
+        inputType: FreeText
+        description: ''
+        required: true
+        value: dev
+      - name: TABLE_NAME
+        inputType: FreeText
+        description: ''
+        required: true
+        value: gametelemtry-v3
+      - name: commit_every
+        inputType: FreeText
+        description: ''
+        required: true
+        value: 1000
+      - name: commit_interval
+        inputType: FreeText
+        description: ''
+        required: false
+        value: 5
+  - name: Query
+    application: query
+    version: latest
+    deploymentType: Service
+    resources:
+      cpu: 1000
+      memory: 2000
+      replicas: 1
+    publicAccess:
+      enabled: true
+      urlPrefix: query
+    variables:
+      - name: AZURE_STORAGE_CONNECTION_STRING
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: azure_connection_str
+      - name: AZURE_STORAGE_CONTAINER_NAME
+        inputType: FreeText
+        description: ''
+        required: true
+        value: iceberg
+      - name: POSTGRES_CONNECTION_STR
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: POSTGRES_CONNECTION_STR
+      - name: AZURE_STORAGE_URI
+        inputType: FreeText
+        description: ''
+        required: true
+        value: abfs://iceberg@quixdatalake.blob.core.windows.net/iceberg
+      - name: NAMESPACE
+        inputType: FreeText
+        description: ''
+        required: true
+        value: dev
+      - name: password
+        inputType: Secret
+        description: ''
+        required: true
+        secretKey: query_password
+      - name: TABLE_NAME
+        inputType: FreeText
+        description: ''
+        required: true
+        value: gametelemtry-v3
+      - name: consumer_group
+        inputType: FreeText
+        required: false
+        value: iceberg-sink-v3.9
+      - name: leading_edge_ms
+        inputType: FreeText
+        required: false
+        value: 5000
 
 # This section describes the Topics of the data pipeline
 topics:
@@ -268,8 +390,9 @@ topics:
       retentionInMinutes: -1
       retentionInBytes: 1048576000
   - name: bot-detection
-    dataTier: Silver
   - name: transformed
   - name: score
   - name: consumptions-credits-aggregated
   - name: consumptions-credits-aggregated-old
+  - name: xml-clickstream
+  - name: transform
