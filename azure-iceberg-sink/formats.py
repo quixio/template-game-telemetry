@@ -6,10 +6,10 @@ from quixstreams.sinks.base import SinkBatch
 
 from datetime import datetime
 
-__all__ = ("S3SinkBatchFormat", "ParquetFormat")
+__all__ = ("FileSinkBatchFormat", "ParquetFormat")
 
 
-class S3SinkBatchFormat:
+class FileSinkBatchFormat:
     """
     Base class to format batches for S3 Sink
     """
@@ -32,7 +32,7 @@ import pyarrow as pa
 import pyarrow.parquet as pq
 import gzip
 
-class ParquetFormat(S3SinkBatchFormat):
+class ParquetFormat(FileSinkBatchFormat):
     # TODO: Docs
     def __init__(
         self,
@@ -69,7 +69,7 @@ class ParquetFormat(S3SinkBatchFormat):
         # Identify keys that have only None values in their arrays
         none_only_keys = {key for key, values in columns.items() if all(v is None for v in values)}
         
-        # Create a new dictionary without the keys that have only None values
+        # Create a new dictionary without the keys that have only None values. Otherwise Parquet will throw an error.
         cleaned_data = {key: values for key, values in columns.items() if key not in none_only_keys}
                 
                     
