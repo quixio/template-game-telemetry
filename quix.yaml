@@ -396,3 +396,4 @@ topics:
   - name: consumptions-credits-aggregated-old
   - name: xml-clickstream
   - name: transform
+  - name: csv-data
