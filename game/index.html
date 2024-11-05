@@ -255,6 +255,40 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   </script>
 
+    <script>
+
+
+const posthogInit = (consented = false) => {
+	alert("phInit");
+	posthog.init('phc_F8iwzCXKepmH41f7L9Nop64lMo2MebFiLLtljMI5OZ5',
+	{
+		api_host:'https://us.i.posthog.com',
+		persistence: consented ? 'localStorage+cookie' : 'memory',
+	})
+}
+
+const handleCookieConsent = (consent) => {
+   posthog.set_config({ persistence: consent === 'yes' ? 'localStorage+cookie' : 'memory' });
+   localStorage.setItem('cookie_consent', consent);
+   alert("Storage set " + consent);
+};
+
+
+posthogInit(); // init posthog with consent === false
+
+// listen for cookie bot on accept event
+window.addEventListener('CookiebotOnAccept', function (e) { 
+	if (Cookiebot.consent.marketing) { 
+		alert("Marketing allowed");
+		handleCookieConsent('yes');
+		posthogInit(true); // init posthog with consent === true
+	} 
+}, false);
+
+
+
+    </script>
+
 </body>
 
 </html>
