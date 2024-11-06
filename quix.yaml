@@ -273,3 +273,8 @@ topics:
   - name: score
   - name: consumptions-credits-aggregated
   - name: consumptions-credits-aggregated-old
+  - name: trades
+    configuration:
+      replicationFactor: 2
+      retentionInMinutes: 1440
+      retentionInBytes: 52428800
