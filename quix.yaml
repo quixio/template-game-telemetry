@@ -281,3 +281,4 @@ topics:
   - name: test-topic
   - name: csv
   - name: bob
+  - name: my_csv_data
