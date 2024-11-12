@@ -280,3 +280,4 @@ topics:
       retentionInBytes: 52428800
   - name: test-topic
   - name: csv
+  - name: bob
