@@ -9,7 +9,7 @@ load_dotenv()
 class webSocketSource:
     
     def __init__(self) -> None:
-        app = Application.Quix()
+        app = Application()
         self._topic = app.topic(name=os.environ["output"], value_serializer='json')
         self._producer = app.get_producer()
         
