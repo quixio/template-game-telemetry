@@ -296,3 +296,4 @@ topics:
   - name: csv
   - name: bob
   - name: my_csv_data
+  - name: csv-data
