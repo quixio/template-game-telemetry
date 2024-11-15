@@ -4,6 +4,7 @@ from quixstreams import Application  # import the Quix Streams modules for inter
 # import additional modules as needed
 import os
 import json
+import time
 
 # for local dev, load env vars from a .env file
 from dotenv import load_dotenv
@@ -67,6 +68,7 @@ def main():
                 value=json_data,
             )
 
+            time.sleep(1)
             # for more help using QuixStreams see docs:
             # https://quix.io/docs/quix-streams/introduction.html
 
