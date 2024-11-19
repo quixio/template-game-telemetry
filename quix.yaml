@@ -297,3 +297,4 @@ topics:
   - name: bob
   - name: my_csv_data
   - name: csv-data
+  - name: kinesis_source
